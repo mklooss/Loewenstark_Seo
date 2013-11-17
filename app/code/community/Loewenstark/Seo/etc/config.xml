@@ -118,6 +118,24 @@
                     </loeseo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_seo_sitemap_category>
+            <controller_action_layout_render_before_catalog_product_view>
+                <observers>
+                    <loeseo_contacts_index_index>
+                        <type>singleton</type>
+                        <class>loeseo/observer</class>
+                        <method>addRobotsTagToCatalogProduct</method>
+                    </loeseo_contacts_index_index>
+                </observers>
+            </controller_action_layout_render_before_catalog_product_view>
+            <controller_action_layout_render_before_catalog_category_view>
+                <observers>
+                    <loeseo_contacts_index_index>
+                        <type>singleton</type>
+                        <class>loeseo/observer</class>
+                        <method>addRobotsTagToCatalogCategory</method>
+                    </loeseo_contacts_index_index>
+                </observers>
+            </controller_action_layout_render_before_catalog_category_view>
         </events>
     </global>
     <adminhtml>

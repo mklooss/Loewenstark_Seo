@@ -130,6 +130,46 @@ class Loewenstark_Seo_Model_Observer
      * @param $event Varien_Event_Observer
      * @return void
      */
+    public function addRobotsTagToCatalogProduct(Varien_Event_Observer $event)
+    {
+        $head = $this->_getLayout()->getBlock('head');
+        /* @var $head Mage_Page_Block_Html_Head */
+        $this->_setRobotsHeader($head->getRobots(), false);
+        if ($this->helper('catalog/product')->canUseCanonicalTag())
+        {
+            $url = Mage::registry('product')
+                    ->getUrlModel()
+                    ->getUrl(Mage::registry('product'), array('_ignore_category' => true));
+            $this->_setCanonicalHeader($url, false);
+        }
+    }
+    
+    /**
+     * event: controller_action_layout_render_before_ . $this->getFullActionName();
+     * in: Mage_Core_Controller_Varien_Action::renderLayout()
+     * 
+     * @param $event Varien_Event_Observer
+     * @return void
+     */
+    public function addRobotsTagToCatalogCategory(Varien_Event_Observer $event)
+    {
+        $head = $this->_getLayout()->getBlock('head');
+        /* @var $head Mage_Page_Block_Html_Head */
+        $this->_setRobotsHeader($head->getRobots(), false);
+        if ($this->helper('catalog/category')->canUseCanonicalTag())
+        {
+            $url = Mage::registry('current_category')->getUrl();
+            $this->_setCanonicalHeader($url, false);
+        }
+    }
+    
+    /**
+     * event: controller_action_layout_render_before_ . $this->getFullActionName();
+     * in: Mage_Core_Controller_Varien_Action::renderLayout()
+     * 
+     * @param $event Varien_Event_Observer
+     * @return void
+     */
     public function addRobotsTagToCheckoutCart(Varien_Event_Observer $event)
     {
         $this->_setRobotsHeader($this->_helper()->getCheckoutRobots());
@@ -161,16 +201,18 @@ class Loewenstark_Seo_Model_Observer
      * 
      * @param string $value
      */
-    public function _setRobotsHeader($value)
+    public function _setRobotsHeader($value, $addToHtmlHead = true)
     {
         if(empty($value))
         {
             $value = $this->_helper()->getDefaultRobots();
         }
         Mage::app()->getResponse()->setHeader('X-Robots-Tag', $value);
-        $this->_getLayout()->getBlock('head')
-            ->setData('robots', $value);
-        
+        if($addToHtmlHead)
+        {
+            $this->_getLayout()->getBlock('head')
+                ->setData('robots', $value);
+        }
         return $this;
     }
     
@@ -179,14 +221,17 @@ class Loewenstark_Seo_Model_Observer
      * @param string $value url
      * @return Loewenstark_Seo_Model_Observer
      */
-    public function _setCanonicalHeader($value)
+    public function _setCanonicalHeader($value, $addToHtmlHead = true)
     {
         if(!empty($value))
         {
             $link = '<'.$value.'>; rel="canonical"';
             Mage::app()->getResponse()->setHeader('Link', $link);
-            $this->_getLayout()->getBlock('head')
-                    ->addLinkRel('canonical', $value);
+            if($addToHtmlHead)
+            {
+                $this->_getLayout()->getBlock('head')
+                        ->addLinkRel('canonical', $value);
+            }
         }
         return $this;
     }
@@ -250,6 +295,16 @@ class Loewenstark_Seo_Model_Observer
     public function _getStoreId()
     {
         return Mage::app()->getStore()->getStoreId();
+    }
+
+    /**
+     * 
+     * @param type $name
+     * @return type
+     */
+    protected function helper($name)
+    {
+        return Mage::helper($name);
     }
 
 
