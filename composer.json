@@ -1,0 +1,9 @@
+{
+   "name": "loewenstark/seo",
+   "type": "magento-module",
+   "description": "technical SEO improvments",
+   "homepage": "https://github.com/mklooss/Loewenstark_Seo",
+   "require": {
+      "magento-hackathon/magento-composer-installer": "*"
+   }
+}
