@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <contacts>
+            <groups>
+                <contacts>
+                    <fields>
+                        <robots translate="label" module="loeseo">
+                            <label>Robots Tag</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>loeseo/system_config_source_cms_robots</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </robots>
+                        <breadcrumb translate="label" module="loeseo">
+                            <label>Add Breadcrumb</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </breadcrumb>
+                    </fields>
+                </contacts>
+            </groups>
+        </contacts>
+        <catalog>
+            <groups>
+                <sitemap>
+                    <fields>
+                        <robots translate="label" module="loeseo">
+                            <label>Robots Tag</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>loeseo/system_config_source_cms_robots</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </robots>
+                    </fields>
+                </sitemap>
+            </groups>
+        </catalog>
+        <customer>
+            <groups>
+                <loeseo>
+                    <label>Search Engine Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>99</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <robots translate="label" module="loeseo">
+                            <label>Robots Tag for Customer Area</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>loeseo/system_config_source_cms_robots</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </robots>
+                    </fields>
+                </loeseo>
+            </groups>
+        </customer>
+        <checkout>
+            <groups>
+                <cart>
+                    <fields>
+                        <robots translate="label" module="loeseo">
+                            <label>Robots Tag for Customer Area</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>loeseo/system_config_source_cms_robots</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </robots>
+                    </fields>
+                </cart>
+            </groups>
+        </checkout>
+    </sections>
+</config>
