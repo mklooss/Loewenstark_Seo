@@ -16,7 +16,7 @@ extends Loewenstark_Seo_Model_System_Config_Source_Design_Robots
         $items = array(
             array(
                 'value' => '',
-                'label' => Mage::helper('loeseo')->__('Default'),
+                'label' => Mage::helper('loewenstark_seo')->__('Default'),
             )
         );
         return array_merge($items, parent::toOptionArray());

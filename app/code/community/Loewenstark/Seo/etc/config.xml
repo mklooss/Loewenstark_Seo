@@ -19,22 +19,22 @@
     <frontend>
         <layout>
             <updates>
-                <loeseo>
+                <loewenstark_seo>
                     <file>loewenstark/seo.xml</file>
-                </loeseo>
+                </loewenstark_seo>
             </updates>
         </layout>
     </frontend>
     <global>
         <helpers>
-            <loeseo>
+            <loewenstark_seo>
                 <class>Loewenstark_Seo_Helper</class>
-            </loeseo>
+            </loewenstark_seo>
         </helpers>
         <models>
-            <loeseo>
+            <loewenstark_seo>
                 <class>Loewenstark_Seo_Model</class>
-            </loeseo>
+            </loewenstark_seo>
             <adminhtml>
                 <rewrite>
                     <system_config_source_design_robots>Loewenstark_Seo_Model_System_Config_Source_Design_Robots</system_config_source_design_robots>
@@ -42,98 +42,98 @@
             </adminhtml>
         </models>
         <resources>
-            <loeseo_setup>
+            <loewenstark_seo_setup>
                 <setup>
                     <module>Loewenstark_Seo</module>
                     <class>Loewenstark_Seo_Model_Resource_Setup</class>
                 </setup>
-            </loeseo_setup>
+            </loewenstark_seo_setup>
         </resources>
         <helpers>
-            <loeseo>
+            <loewenstark_seo>
                 <class>Loewenstark_Seo_Helper</class>
-            </loeseo>
+            </loewenstark_seo>
         </helpers>
         <events>
             <adminhtml_cms_page_edit_tab_meta_prepare_form>
                 <observers>
-                    <loeseo_catalog_product_get_final_price>
+                    <loewenstark_seo_catalog_product_get_final_price>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addFieldsToCmsMetaTagForm</method>
-                    </loeseo_catalog_product_get_final_price>
+                    </loewenstark_seo_catalog_product_get_final_price>
                 </observers>
             </adminhtml_cms_page_edit_tab_meta_prepare_form>
             <controller_action_layout_render_before_cms_page_view>
                 <observers>
-                    <loeseo_cms_page_render>
+                    <loewenstark_seo_cms_page_render>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCmsPage</method>
-                    </loeseo_cms_page_render>
+                    </loewenstark_seo_cms_page_render>
                 </observers>
             </controller_action_layout_render_before_cms_page_view>
             <controller_action_layout_render_before>
                 <observers>
-                    <loeseo_cms_page_render>
+                    <loewenstark_seo_cms_page_render>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToIndexPage</method>
-                    </loeseo_cms_page_render>
+                    </loewenstark_seo_cms_page_render>
                 </observers>
             </controller_action_layout_render_before>
             <controller_action_layout_render_before_contacts_index_index>
                 <observers>
-                    <loeseo_contacts_index_index>
+                    <loewenstark_seo_contacts_index_index>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToContacts</method>
-                    </loeseo_contacts_index_index>
+                    </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_contacts_index_index>
             <controller_action_layout_render_before>
                 <observers>
-                    <loeseo_customer_account>
+                    <loewenstark_seo_customer_account>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCustomerAccount</method>
-                    </loeseo_customer_account>
+                    </loewenstark_seo_customer_account>
                 </observers>
             </controller_action_layout_render_before>
             <controller_action_layout_render_before_checkout_cart_index>
                 <observers>
-                    <loeseo_contacts_index_index>
+                    <loewenstark_seo_contacts_index_index>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCheckoutCart</method>
-                    </loeseo_contacts_index_index>
+                    </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_checkout_cart_index>
             <controller_action_layout_render_before_catalog_seo_sitemap_category>
                 <observers>
-                    <loeseo_contacts_index_index>
+                    <loewenstark_seo_contacts_index_index>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToSitemap</method>
-                    </loeseo_contacts_index_index>
+                    </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_seo_sitemap_category>
             <controller_action_layout_render_before_catalog_product_view>
                 <observers>
-                    <loeseo_contacts_index_index>
+                    <loewenstark_seo_contacts_index_index>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCatalogProduct</method>
-                    </loeseo_contacts_index_index>
+                    </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_product_view>
             <controller_action_layout_render_before_catalog_category_view>
                 <observers>
-                    <loeseo_contacts_index_index>
+                    <loewenstark_seo_contacts_index_index>
                         <type>singleton</type>
-                        <class>loeseo/observer</class>
+                        <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCatalogCategory</method>
-                    </loeseo_contacts_index_index>
+                    </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_category_view>
         </events>
@@ -172,9 +172,9 @@
             </seo>
         </catalog>
         <customer>
-            <loeseo>
+            <loewenstark_seo>
                 <robots>NOINDEX,FOLLOW</robots>
-            </loeseo>
+            </loewenstark_seo>
         </customer>
         <checkout>
             <cart>
