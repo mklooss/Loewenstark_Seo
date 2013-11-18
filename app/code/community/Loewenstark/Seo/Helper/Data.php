@@ -13,7 +13,7 @@ extends Mage_Core_Helper_Abstract
 {
     
     const XML_PATH_DEFAULT_ROBOTS      = 'design/head/default_robots';
-    const XML_PATH_CUSTOMER_ROBOTS     = 'customer/loeseo/robots';
+    const XML_PATH_CUSTOMER_ROBOTS     = 'customer/loewenstark_seo/robots';
     const XML_PATH_CONTACTS_ROBOTS     = 'contacts/contacts/robots';
     const XML_PATH_SITEMAP_ROBOTS      = 'catalog/sitemap/robots';
     const XML_PATH_CONTACTS_BREADCRUMB = 'contacts/contacts/breadcrumb';

@@ -17,7 +17,7 @@ class Loewenstark_Seo_Model_System_Config_Source_Design_Robots
         {
             $items[] = array(
                 'value' => $_row,
-                'label' => Mage::helper('loeseo')->__(str_replace(',', ', ', $_row))
+                'label' => Mage::helper('loewenstark_seo')->__(str_replace(',', ', ', $_row))
             );
         }
         return $items;

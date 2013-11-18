@@ -24,12 +24,12 @@ class Loewenstark_Seo_Model_Observer
         
         $form = $event->getForm();
         /* @var $form Varien_Data_Form */
-        $fieldset = $form->addFieldset('meta_seo', array('legend' => Mage::helper('loeseo')->__('Meta Data for SEO'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('meta_seo', array('legend' => Mage::helper('loewenstark_seo')->__('Meta Data for SEO'), 'class' => 'fieldset-wide'));
         $fieldset->addField('meta_robots', 'select', array(
             'name' => 'meta_robots',
-            'label' => Mage::helper('loeseo')->__('Robots Tag'),
-            'title' => Mage::helper('loeseo')->__('Robots Tag'),
-            'values'    => Mage::getSingleton('loeseo/system_config_source_cms_robots')->toOptionArray(),
+            'label' => Mage::helper('loewenstark_seo')->__('Robots Tag'),
+            'title' => Mage::helper('loewenstark_seo')->__('Robots Tag'),
+            'values'    => Mage::getSingleton('loewenstark_seo/system_config_source_cms_robots')->toOptionArray(),
             'disabled'  => $isElementDisabled
         ));
     }
@@ -65,7 +65,7 @@ class Loewenstark_Seo_Model_Observer
     {
         $obj = new Varien_Object();
         $obj->setIndexHandle('cms_index_index');
-        Mage::dispatchEvent('loeseo_robots_tag_to_index', array(
+        Mage::dispatchEvent('loewenstark_seo_robots_tag_to_index', array(
             'object' => $obj,
             'model'  => $this
         ));
@@ -110,7 +110,7 @@ class Loewenstark_Seo_Model_Observer
         $items = new Varien_Object();
         $items->setLayoutHandle('customer_account')
                 ->setFullActions(new Varien_Object($fullActions));
-        Mage::dispatchEvent('loeseo_robots_tag_to_customer_account', array(
+        Mage::dispatchEvent('loewenstark_seo_robots_tag_to_customer_account', array(
             'object' => $items,
             'model'  => $this
         ));
@@ -274,7 +274,7 @@ class Loewenstark_Seo_Model_Observer
      */
     protected function _helper()
     {
-        return Mage::helper('loeseo');
+        return Mage::helper('loewenstark_seo');
     }
 
     /**
