@@ -316,9 +316,6 @@ class Loewenstark_Seo_Model_Observer
     public function getUrl($url, $params = array())
     {
         $params['_nosid'] = true;
-        $url = Mage::getUrl($url, $params);
-        $search = array('?___SID=U', '&___SID=U');
-        $replace = '';
-        return str_replace($search, $replace, $url);
+        return str_replace(array('?___SID=U', '&___SID=U'), '', Mage::getUrl($url, $params));
     }
 }
