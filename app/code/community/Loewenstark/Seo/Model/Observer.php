@@ -225,6 +225,7 @@ class Loewenstark_Seo_Model_Observer
     {
         if(!empty($value))
         {
+            $value = str_replace(array('?___SID=U', '&___SID=U'), '', $value);
             $link = '<'.$value.'>; rel="canonical"';
             Mage::app()->getResponse()->setHeader('Link', $link);
             if($addToHtmlHead)
@@ -316,6 +317,6 @@ class Loewenstark_Seo_Model_Observer
     public function getUrl($url, $params = array())
     {
         $params['_nosid'] = true;
-        return str_replace(array('?___SID=U', '&___SID=U'), '', Mage::getUrl($url, $params));
+        return Mage::getUrl($url, $params);
     }
 }
