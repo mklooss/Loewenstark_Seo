@@ -50,7 +50,7 @@ class Loewenstark_Seo_Model_Observer
         {
             $this->_setCanonicalHeader($this->_getBaseUrl());
         } else {
-            $this->_setCanonicalHeader($page->getIdentifier());
+            $this->_setCanonicalHeader($this->getUrl($page->getIdentifier()));
         }
     }
 
