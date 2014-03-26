@@ -261,7 +261,7 @@ class Loewenstark_Seo_Model_Observer
         $url = null;
         if($this->_getDefaultStoreId() == $this->_getStoreId())
         {
-            $url = Mage::getUrl('', array('_type' => 'direct_link'));
+            $url = $this->getUrl('', array('_type' => 'direct_link'));
         } else {
             $url = Mage::helper('core/url')->getHomeUrl();
         }
