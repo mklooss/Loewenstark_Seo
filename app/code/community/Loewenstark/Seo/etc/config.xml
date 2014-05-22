@@ -13,7 +13,7 @@
 <config>
     <modules>
         <Loewenstark_Seo>
-            <version>1.0.0.0</version>
+            <version>1.0.0.1</version>
         </Loewenstark_Seo>
     </modules>
     <frontend>
@@ -24,46 +24,15 @@
                 </loewenstark_seo>
             </updates>
         </layout>
-    </frontend>
-    <global>
-        <helpers>
-            <loewenstark_seo>
-                <class>Loewenstark_Seo_Helper</class>
-            </loewenstark_seo>
-        </helpers>
-        <models>
-            <loewenstark_seo>
-                <class>Loewenstark_Seo_Model</class>
-            </loewenstark_seo>
-            <adminhtml>
-                <rewrite>
-                    <system_config_source_design_robots>Loewenstark_Seo_Model_System_Config_Source_Design_Robots</system_config_source_design_robots>
-                </rewrite>
-            </adminhtml>
-        </models>
-        <resources>
-            <loewenstark_seo_setup>
-                <setup>
-                    <module>Loewenstark_Seo</module>
-                    <class>Loewenstark_Seo_Model_Resource_Setup</class>
-                </setup>
-            </loewenstark_seo_setup>
-        </resources>
-        <helpers>
-            <loewenstark_seo>
-                <class>Loewenstark_Seo_Helper</class>
-            </loewenstark_seo>
-        </helpers>
         <events>
-            <adminhtml_cms_page_edit_tab_meta_prepare_form>
+            <controller_action_predispatch>
                 <observers>
-                    <loewenstark_seo_catalog_product_get_final_price>
-                        <type>singleton</type>
+                    <redirectifsecure>
                         <class>loewenstark_seo/observer</class>
-                        <method>addFieldsToCmsMetaTagForm</method>
-                    </loewenstark_seo_catalog_product_get_final_price>
+                        <method>checkNonSecureUrl</method>
+                    </redirectifsecure>
                 </observers>
-            </adminhtml_cms_page_edit_tab_meta_prepare_form>
+            </controller_action_predispatch>
             <controller_action_layout_render_before_cms_page_view>
                 <observers>
                     <loewenstark_seo_cms_page_render>
@@ -136,6 +105,47 @@
                     </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_category_view>
+        </events>
+    </frontend>
+    <global>
+        <helpers>
+            <loewenstark_seo>
+                <class>Loewenstark_Seo_Helper</class>
+            </loewenstark_seo>
+        </helpers>
+        <models>
+            <loewenstark_seo>
+                <class>Loewenstark_Seo_Model</class>
+            </loewenstark_seo>
+            <adminhtml>
+                <rewrite>
+                    <system_config_source_design_robots>Loewenstark_Seo_Model_System_Config_Source_Design_Robots</system_config_source_design_robots>
+                </rewrite>
+            </adminhtml>
+        </models>
+        <resources>
+            <loewenstarkseo_setup>
+                <setup>
+                    <module>Loewenstark_Seo</module>
+                    <class>Loewenstark_Seo_Model_Resource_Setup</class>
+                </setup>
+            </loewenstarkseo_setup>
+        </resources>
+        <helpers>
+            <loewenstark_seo>
+                <class>Loewenstark_Seo_Helper</class>
+            </loewenstark_seo>
+        </helpers>
+        <events>
+            <adminhtml_cms_page_edit_tab_meta_prepare_form>
+                <observers>
+                    <loewenstark_seo_catalog_product_get_final_price>
+                        <type>singleton</type>
+                        <class>loewenstark_seo/observer</class>
+                        <method>addFieldsToCmsMetaTagForm</method>
+                    </loewenstark_seo_catalog_product_get_final_price>
+                </observers>
+            </adminhtml_cms_page_edit_tab_meta_prepare_form>
         </events>
     </global>
     <adminhtml>

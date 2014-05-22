@@ -12,10 +12,12 @@ $installer = $this;
 /* @var $installer Loewenstark_Seo_Model_Resource_Setup */
 $installer->startSetup();
 
+$where = $installer->getConnection()
+        ->quoteInto('path = ?', 'catalog/seo/category_canonical_tag');
 $installer->getConnection()
-        ->addColumn($installer->getTable('cms/page'), 'meta_robots', array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-        'length'    => 32,
-        'nullable'  => true,
-        'comment'   => 'meta robots text'
-    ));
+        ->update($installer->getTable('core/config_data'), array(
+            'path' => 'catalog/seo/category_canonical_tag_seo'
+        ), $where);
+$installer->setConfigData('catalog/seo/category_canonical_tag', 0);
+
+$installer->endSetup();

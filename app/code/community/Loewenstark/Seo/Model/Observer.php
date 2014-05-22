@@ -11,6 +11,8 @@
 class Loewenstark_Seo_Model_Observer
 {
 
+    const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
+
     /**
      * event: adminhtml_cms_page_edit_tab_meta_prepare_form
      * in: Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta::_prepareForm()
@@ -156,10 +158,17 @@ class Loewenstark_Seo_Model_Observer
         $head = $this->_getLayout()->getBlock('head');
         /* @var $head Mage_Page_Block_Html_Head */
         $this->_setRobotsHeader($head->getRobots(), false);
-        if ($this->helper('catalog/category')->canUseCanonicalTag())
+        $category = Mage::registry('current_category');
+        /* @var $category Mage_Catalog_Model_Category */
+        if (Mage::getStoreConfig(self::XML_PATH_CATEGORY_CANONICAL_TAG, $category->getStoreId()))
         {
-            $url = Mage::registry('current_category')->getUrl();
-            $this->_setCanonicalHeader($url, false);
+            $url = $category->getUrl();
+            if($url == Mage::helper('core/url')->getCurrentUrl())
+            {
+                $this->_setCanonicalHeader($url);
+            } else {
+                $head->setRobots('NOINDEX, FOLLOW');
+            }
         }
     }
     
@@ -186,7 +195,36 @@ class Loewenstark_Seo_Model_Observer
     {
         $this->_setRobotsHeader($this->_helper()->getSitemapRobots());
     }
-    
+
+    /**
+     * redirect if non ssl page opened with ssl
+     * 
+     * @param Varien_Event_Observer $event
+     */
+    public function checkNonSecureUrl(Varien_Event_Observer $event)
+    {
+        $controller = $event->getControllerAction();
+        /* @var $controller Mage_Core_Controller_Varien_Action */
+        $request = $controller->getRequest();
+        /* @var $request Mage_Core_Controller_Request_Http */
+        $path = '/'.$controller->getFullActionName('/');
+        
+        $_helper = Mage::helper('loewenstark_seo/secure');
+        /* @var $_helper Loewenstark_Energetic_Helper_Secure */
+        if ($request->isSecure() && !$_helper->shouldBeSecure($path))
+        {
+            $url = $_helper->getCurrentUnSecureUrl($request);
+            if (Mage::app()->getUseSessionInUrl()) {
+                $url = Mage::getSingleton('core/url')->getRedirectUrl($url);
+            }
+
+            Mage::app()->getFrontController()->getResponse()
+                ->setRedirect($url, 301)
+                ->sendResponse();
+            exit;
+        }
+    }
+
     /**
      * 
      * @return Mage_Core_Model_Layout
