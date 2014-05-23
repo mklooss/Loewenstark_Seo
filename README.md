@@ -15,6 +15,7 @@ Description
 * X-Robots-Tag to HTTP-Header
 * Canonical-Url for CMS, Contacts, Index Pages
 * Canonical-Url in HTTP-Header
+* Category, if the URL is exactly the same as the category url, the Canonical Tag will be set. otherwise we set the robots tag to NOINDEX, FOLLOW, and no Canonical Tag
 
 Requirements
 ------------
