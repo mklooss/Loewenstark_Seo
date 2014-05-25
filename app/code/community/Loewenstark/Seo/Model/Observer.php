@@ -11,8 +11,10 @@
 class Loewenstark_Seo_Model_Observer
 {
 
-    const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
+    protected $_page_type = null;
 
+    const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
+    
     /**
      * event: adminhtml_cms_page_edit_tab_meta_prepare_form
      * in: Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta::_prepareForm()
@@ -167,7 +169,7 @@ class Loewenstark_Seo_Model_Observer
             {
                 $this->_setCanonicalHeader($url);
             } else {
-                $head->setRobots('NOINDEX, FOLLOW');
+                $this-_setRobotsHeader('NOINDEX, FOLLOW');
             }
         }
     }
@@ -234,6 +236,17 @@ class Loewenstark_Seo_Model_Observer
         return Mage::app()->getLayout();
     }
 
+    /**
+     * 
+     * @param $type set Page Type (like: cms, catalog_product, catalog_category)
+     * @return Mage_Core_Model_Layout
+     */
+    public function setPageType($type)
+    {
+        $this->_page_type = $type;
+        return $this;
+    }
+    
     /**
      * set Robots Tag in Response Header (HTTP/1.1)
      * 
@@ -355,6 +368,13 @@ class Loewenstark_Seo_Model_Observer
     public function getUrl($url, $params = array())
     {
         $params['_nosid'] = true;
-        return Mage::getUrl($url, $params);
+        $url = Mage::getUrl($url, $params);
+        return $this->parseUrl($url);;
+    }
+    
+    public function parseUrl($url)
+    {
+        $url = str_replace(array('?___SID=U', '&___SID=U'), '', $url);
+        return Mage::helper('loewenstark_seo')->parseUrl($url, $this->_page_type);
     }
 }
