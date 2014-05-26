@@ -169,7 +169,7 @@ class Loewenstark_Seo_Model_Observer
             {
                 $this->_setCanonicalHeader($url);
             } else {
-                $this-_setRobotsHeader('NOINDEX, FOLLOW');
+                $this->_setRobotsHeader('NOINDEX, FOLLOW');
             }
         }
     }
