@@ -375,6 +375,6 @@ class Loewenstark_Seo_Model_Observer
     public function parseUrl($url)
     {
         $url = str_replace(array('?___SID=U', '&___SID=U'), '', $url);
-        return Mage::helper('loewenstark_seo')->parseUrl($url, $this->_page_type);
+        return Mage::helper('loewenstark_seo/trailingslashes')->parseUrl($url, $this->_page_type);
     }
 }
