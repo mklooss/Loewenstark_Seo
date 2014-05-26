@@ -14,7 +14,7 @@ extends Mage_Core_Helper_Abstract
 
     protected $_is_active = null;
 
-    protected _construct()
+    protected function _construct()
     {
         parent::_construct();
         $this->_is_active = (bool)intval(Mage::getConfig()->getModuleConfig('LimeSoda_TrailingSlashes')->is('active', 'true'));
