@@ -164,7 +164,7 @@ class Loewenstark_Seo_Model_Observer
         /* @var $category Mage_Catalog_Model_Category */
         if (Mage::getStoreConfig(self::XML_PATH_CATEGORY_CANONICAL_TAG, $category->getStoreId()))
         {
-            $url = $category->getUrl();
+            $url = $this->cleanUrl($category->getUrl());
             if($url == Mage::helper('core/url')->getCurrentUrl())
             {
                 $this->_setCanonicalHeader($url);
@@ -276,7 +276,7 @@ class Loewenstark_Seo_Model_Observer
     {
         if(!empty($value))
         {
-            $value = str_replace(array('?___SID=U', '&___SID=U'), '', $value);
+            $value = $this->cleanUrl($value);
             $link = '<'.$value.'>; rel="canonical"';
             Mage::app()->getResponse()->setHeader('Link', $link);
             if($addToHtmlHead)
@@ -313,7 +313,7 @@ class Loewenstark_Seo_Model_Observer
         $url = null;
         if($this->_getDefaultStoreId() == $this->_getStoreId())
         {
-            $url = $this->getUrl('', array('_type' => 'direct_link'));
+            $url = Mage::getStoreConfig('web/unsecure/base_url', $this->_getStoreId());
         } else {
             $url = Mage::helper('core/url')->getHomeUrl();
         }
@@ -374,7 +374,17 @@ class Loewenstark_Seo_Model_Observer
     
     public function parseUrl($url)
     {
-        $url = str_replace(array('?___SID=U', '&___SID=U'), '', $url);
+        $url = $this->cleanUrl($url);
         return Mage::helper('loewenstark_seo/trailingslashes')->parseUrl($url, $this->_page_type);
+    }
+    
+    /**
+     * 
+     * @param string $url
+     * @return string
+     */
+    public function cleanUrl($url)
+    {
+        return str_replace(array('?___SID=U', '&___SID=U'), '', $url);
     }
 }
