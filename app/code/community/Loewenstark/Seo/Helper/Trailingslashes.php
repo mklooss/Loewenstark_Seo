@@ -17,7 +17,7 @@ extends Mage_Core_Helper_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_is_active = (bool)intval(Mage::getConfig()->getModuleConfig('LimeSoda_TrailingSlashes')->is('active', 'true'));
+        $this->_is_active = (bool) intval(Mage::getConfig()->getModuleConfig('LimeSoda_TrailingSlashes')->is('active', 'true'));
     }
 
     /**
@@ -27,7 +27,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function shouldRedirectCategoryView()
     {
-        if(!$this->_is_active)
+        if (!$this->_is_active)
         {
             return false;
         }
@@ -41,7 +41,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function shouldRedirectProductView()
     {
-        if(!$this->_is_active)
+        if (!$this->_is_active)
         {
             return false;
         }
@@ -55,13 +55,13 @@ extends Mage_Core_Helper_Abstract
      */
     public function shouldRedirectCmsPageView()
     {
-        if(!$this->_is_active)
+        if (!$this->_is_active)
         {
             return false;
         }
         return Mage::helper('limesoda_trailingslashes')->shouldRedirectCmsPageView();
     }
-    
+
     /**
      * parse url
      *
@@ -69,9 +69,9 @@ extends Mage_Core_Helper_Abstract
      */
     public function parseUrl($url, $type)
     {
-        if(!is_null($type))
+        if (!is_null($type))
         {
-            switch($type)
+            switch ($type)
             {
                 case 'catalog_product':
                     $url = $this->shouldRedirectProductView() ? trim($url, '/') : $url;

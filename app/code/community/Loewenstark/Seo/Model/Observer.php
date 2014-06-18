@@ -14,18 +14,18 @@ class Loewenstark_Seo_Model_Observer
     protected $_page_type = null;
 
     const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
-    
+
     /**
      * event: adminhtml_cms_page_edit_tab_meta_prepare_form
      * in: Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta::_prepareForm()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
     public function addFieldsToCmsMetaTagForm(Varien_Event_Observer $event)
     {
         $isElementDisabled = Mage::getSingleton('admin/session')->isAllowed('cms/page/save') ? false : true;
-        
+
         $form = $event->getForm();
         /* @var $form Varien_Data_Form */
         $fieldset = $form->addFieldset('meta_seo', array('legend' => Mage::helper('loewenstark_seo')->__('Meta Data for SEO'), 'class' => 'fieldset-wide'));
@@ -34,14 +34,14 @@ class Loewenstark_Seo_Model_Observer
             'label' => Mage::helper('loewenstark_seo')->__('Robots Tag'),
             'title' => Mage::helper('loewenstark_seo')->__('Robots Tag'),
             'values'    => Mage::getSingleton('loewenstark_seo/system_config_source_cms_robots')->toOptionArray(),
-            'disabled'  => $isElementDisabled
+            'disabled'  => $isElementDisabled,
         ));
     }
 
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -50,10 +50,12 @@ class Loewenstark_Seo_Model_Observer
         $page = Mage::getSingleton('cms/page');
         /* @var $page Mage_Cms_Model_Page */
         $this->_setRobotsHeader($page->getMetaRobots());
-        if(Mage::getStoreConfig('web/default/front') == 'cms' && Mage::getStoreConfig('web/default/cms_home_page') == $page->getIdentifier())
+        if (Mage::getStoreConfig('web/default/front') == 'cms' && Mage::getStoreConfig('web/default/cms_home_page') == $page->getIdentifier())
         {
             $this->_setCanonicalHeader($this->_getBaseUrl());
-        } else {
+        }
+        else
+        {
             $this->_setCanonicalHeader($this->getUrl($page->getIdentifier()));
         }
     }
@@ -61,7 +63,7 @@ class Loewenstark_Seo_Model_Observer
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -71,19 +73,19 @@ class Loewenstark_Seo_Model_Observer
         $obj->setIndexHandle('cms_index_index');
         Mage::dispatchEvent('loewenstark_seo_robots_tag_to_index', array(
             'object' => $obj,
-            'model'  => $this
+            'model'  => $this,
         ));
-        if(in_array($obj->getIndexHandle(), $this->_getLayout()->getUpdate()->getHandles()))
+        if (in_array($obj->getIndexHandle(), $this->_getLayout()->getUpdate()->getHandles()))
         {
             $this->_setRobotsHeader($this->_helper()->getDefaultRobots());
             $this->_setCanonicalHeader($this->_getBaseUrl());
         }
     }
-    
+
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -91,9 +93,9 @@ class Loewenstark_Seo_Model_Observer
     {
         $this->_setRobotsHeader($this->_helper()->getContactsRobots());
         $this->_setCanonicalHeader($this->getUrl('contacts'));
-        
+
         $breadcrumbs = $this->_getLayout()->getBlock('breadcrumbs');
-        if($this->_helper()->getContactsBreadcrumb() && $breadcrumbs)
+        if ($this->_helper()->getContactsBreadcrumb() && $breadcrumbs)
         {
             $title = Mage::helper('contacts')->__('Contact Us');
             $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
@@ -104,7 +106,7 @@ class Loewenstark_Seo_Model_Observer
     /**
      * event: controller_action_layout_render_before
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -116,11 +118,11 @@ class Loewenstark_Seo_Model_Observer
                 ->setFullActions(new Varien_Object($fullActions));
         Mage::dispatchEvent('loewenstark_seo_robots_tag_to_customer_account', array(
             'object' => $items,
-            'model'  => $this
+            'model'  => $this,
         ));
-        if(
+        if (
                 in_array($items->getLayoutHandle(), $this->_getLayout()->getUpdate()->getHandles())
-                || 
+                ||
                 in_array($this->_getFullActionName(), array_keys($items->getFullActions()->getData()))
         ) {
             $this->_setRobotsHeader($this->_helper()->getCustomerRobots());
@@ -130,7 +132,7 @@ class Loewenstark_Seo_Model_Observer
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -147,11 +149,11 @@ class Loewenstark_Seo_Model_Observer
             $this->_setCanonicalHeader($url, false);
         }
     }
-    
+
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -165,19 +167,18 @@ class Loewenstark_Seo_Model_Observer
         if (Mage::getStoreConfig(self::XML_PATH_CATEGORY_CANONICAL_TAG, $category->getStoreId()))
         {
             $url = $this->cleanUrl($category->getUrl());
-            if($url == Mage::helper('core/url')->getCurrentUrl())
+            if ($url != Mage::helper('core/url')->getCurrentUrl())
             {
-                $this->_setCanonicalHeader($url);
-            } else {
                 $this->_setRobotsHeader('NOINDEX, FOLLOW');
             }
+            $this->_setCanonicalHeader($url);
         }
     }
-    
+
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -185,11 +186,11 @@ class Loewenstark_Seo_Model_Observer
     {
         $this->_setRobotsHeader($this->_helper()->getCheckoutRobots());
     }
-    
+
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
      * in: Mage_Core_Controller_Varien_Action::renderLayout()
-     * 
+     *
      * @param $event Varien_Event_Observer
      * @return void
      */
@@ -200,7 +201,7 @@ class Loewenstark_Seo_Model_Observer
 
     /**
      * redirect if non ssl page opened with ssl
-     * 
+     *
      * @param Varien_Event_Observer $event
      */
     public function checkNonSecureUrl(Varien_Event_Observer $event)
@@ -210,13 +211,14 @@ class Loewenstark_Seo_Model_Observer
         $request = $controller->getRequest();
         /* @var $request Mage_Core_Controller_Request_Http */
         $path = '/'.$controller->getFullActionName('/');
-        
+
         $_helper = Mage::helper('loewenstark_seo/secure');
         /* @var $_helper Loewenstark_Energetic_Helper_Secure */
         if ($request->isSecure() && !$_helper->shouldBeSecure($path))
         {
             $url = $_helper->getCurrentUnSecureUrl($request);
-            if (Mage::app()->getUseSessionInUrl()) {
+            if (Mage::app()->getUseSessionInUrl())
+            {
                 $url = Mage::getSingleton('core/url')->getRedirectUrl($url);
             }
 
@@ -228,7 +230,7 @@ class Loewenstark_Seo_Model_Observer
     }
 
     /**
-     * 
+     *
      * @return Mage_Core_Model_Layout
      */
     protected function _getLayout()
@@ -237,7 +239,7 @@ class Loewenstark_Seo_Model_Observer
     }
 
     /**
-     * 
+     *
      * @param $type set Page Type (like: cms, catalog_product, catalog_category)
      * @return Mage_Core_Model_Layout
      */
@@ -246,40 +248,40 @@ class Loewenstark_Seo_Model_Observer
         $this->_page_type = $type;
         return $this;
     }
-    
+
     /**
      * set Robots Tag in Response Header (HTTP/1.1)
-     * 
+     *
      * @param string $value
      */
     public function _setRobotsHeader($value, $addToHtmlHead = true)
     {
-        if(empty($value))
+        if (empty($value))
         {
             $value = $this->_helper()->getDefaultRobots();
         }
         Mage::app()->getResponse()->setHeader('X-Robots-Tag', $value);
-        if($addToHtmlHead)
+        if ($addToHtmlHead)
         {
             $this->_getLayout()->getBlock('head')
                 ->setData('robots', $value);
         }
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @param string $value url
      * @return Loewenstark_Seo_Model_Observer
      */
     public function _setCanonicalHeader($value, $addToHtmlHead = true)
     {
-        if(!empty($value))
+        if (!empty($value))
         {
             $value = $this->cleanUrl($value);
             $link = '<'.$value.'>; rel="canonical"';
             Mage::app()->getResponse()->setHeader('Link', $link);
-            if($addToHtmlHead)
+            if ($addToHtmlHead)
             {
                 $this->_getLayout()->getBlock('head')
                         ->addLinkRel('canonical', $value);
@@ -290,7 +292,7 @@ class Loewenstark_Seo_Model_Observer
 
     /**
      * get Controller FullActionName like "cms_page_view"
-     * 
+     *
      * @param string $delimiter
      * @return string
      */
@@ -305,23 +307,25 @@ class Loewenstark_Seo_Model_Observer
 
     /**
      * getBase Url of Store
-     * 
+     *
      * @return string
      */
     public function _getBaseUrl()
     {
         $url = null;
-        if($this->_getDefaultStoreId() == $this->_getStoreId())
+        if ($this->_getDefaultStoreId() == $this->_getStoreId())
         {
             $url = Mage::getStoreConfig('web/unsecure/base_url', $this->_getStoreId());
-        } else {
+        }
+        else
+        {
             $url = Mage::helper('core/url')->getHomeUrl();
         }
         return $url;
     }
 
     /**
-     * 
+     *
      * @return Loewenstark_Seo_Helper_Data
      */
     protected function _helper()
@@ -331,7 +335,7 @@ class Loewenstark_Seo_Model_Observer
 
     /**
      * get Default Store Id
-     * 
+     *
      * @return int
      */
     public function _getDefaultStoreId()
@@ -341,7 +345,7 @@ class Loewenstark_Seo_Model_Observer
 
     /**
      * get Current Store Id
-     * 
+     *
      * @return int
      */
     public function _getStoreId()
@@ -350,7 +354,7 @@ class Loewenstark_Seo_Model_Observer
     }
 
     /**
-     * 
+     *
      * @param type $name
      * @return type
      */
@@ -361,7 +365,7 @@ class Loewenstark_Seo_Model_Observer
 
 
     /**
-     * 
+     *
      * @param string $url
      * @param array $params
      */
@@ -371,15 +375,15 @@ class Loewenstark_Seo_Model_Observer
         $url = Mage::getUrl($url, $params);
         return $this->parseUrl($url);;
     }
-    
+
     public function parseUrl($url)
     {
         $url = $this->cleanUrl($url);
         return Mage::helper('loewenstark_seo/trailingslashes')->parseUrl($url, $this->_page_type);
     }
-    
+
     /**
-     * 
+     *
      * @param string $url
      * @return string
      */
