@@ -49,6 +49,10 @@
                         <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToIndexPage</method>
                     </loewenstark_seo_cms_page_render>
+                    <loewenstark_seo_redirect_if_disabled>
+                        <class>loewenstark_seo/observer</class>
+                        <method>redirectIfDisabled</method>
+                    </loewenstark_seo_redirect_if_disabled>
                 </observers>
             </controller_action_layout_render_before>
             <controller_action_layout_render_before_contacts_index_index>

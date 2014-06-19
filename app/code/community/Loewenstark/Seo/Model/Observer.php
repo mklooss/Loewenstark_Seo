@@ -14,6 +14,7 @@ class Loewenstark_Seo_Model_Observer
     protected $_page_type = null;
 
     const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
+    const XML_PATH_REDIRECT_IF_DISABLED   = 'catalog/seo/redirect_if_disabled';
 
     /**
      * event: adminhtml_cms_page_edit_tab_meta_prepare_form
@@ -112,7 +113,10 @@ class Loewenstark_Seo_Model_Observer
      */
     public function addRobotsTagToCustomerAccount(Varien_Event_Observer $event)
     {
-        $fullActions = array('customer_account_login' => '','customer_account_create' => '');
+        $fullActions = array(
+            'customer_account_login'  => '',
+            'customer_account_create' => '',
+        );
         $items = new Varien_Object();
         $items->setLayoutHandle('customer_account')
                 ->setFullActions(new Varien_Object($fullActions));
@@ -390,5 +394,58 @@ class Loewenstark_Seo_Model_Observer
     public function cleanUrl($url)
     {
         return str_replace(array('?___SID=U', '&___SID=U'), '', $url);
+    }
+
+    /**
+     * Check if the current request matches a disabled product or category. If
+     * an item is found redirect to a special page (or homepage by default)
+     * instead of throwing a 404 error.
+     */
+    public function redirectIfDisabled($observer)
+    {
+        $redirect_if_disabled = Mage::getStoreConfig(self::XML_PATH_REDIRECT_IF_DISABLED);
+        if ($redirect_if_disabled != '')
+        {
+            $request  = Mage::app()->getRequest();
+            $response = Mage::app()->getResponse();
+            $path     = explode('/', trim($request->getPathInfo(), '/'));
+
+            if ($request->getActionName() == 'noRoute')
+            {
+                // Product
+                if (in_array('product', $path) && in_array($redirect_if_disabled, array('product', 'both')))
+                {
+                    $product = Mage::getModel('catalog/product')->getCollection()
+                        ->addAttributeToFilter('entity_id', $request->getParam('id'))
+                        ->addStoreFilter()
+                        ->addAttributeToSelect('status')
+                        ->getFirstItem()
+                    ;
+                    if ($product['status'] != Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                    {
+                        // Redirect to base url
+                        $response->clearHeaders()->setRedirect(Mage::getBaseUrl(), 301)->sendResponse();
+                        exit;
+                    }
+                }
+                // Category
+                if (in_array('category', $path) && in_array($redirect_if_disabled, array('category', 'both')))
+                {
+                    $category = Mage::getModel('catalog/category')
+                        ->setStoreId(Mage::app()->getStore()->getStoreId())
+                        ->getCollection()
+                        ->addAttributeToFilter('entity_id', $request->getParam('id'))
+                        ->addAttributeToSelect('is_active')
+                        ->getFirstItem()
+                    ;
+                    if ($category['is_active'] != '1')
+                    {
+                        // Redirect to base url
+                        $response->clearHeaders()->setRedirect(Mage::getBaseUrl(), 301)->sendResponse();
+                        exit;
+                    }
+                }
+            }
+        }
     }
 }
