@@ -51,6 +51,7 @@ class Loewenstark_Seo_Model_Observer
         $page = Mage::getSingleton('cms/page');
         /* @var $page Mage_Cms_Model_Page */
         $this->_setRobotsHeader($page->getMetaRobots());
+        $this->setPageType('cms');
         if (Mage::getStoreConfig('web/default/front') == 'cms' && Mage::getStoreConfig('web/default/cms_home_page') == $page->getIdentifier())
         {
             $this->_setCanonicalHeader($this->_getBaseUrl());
@@ -147,6 +148,7 @@ class Loewenstark_Seo_Model_Observer
         $this->_setRobotsHeader($head->getRobots(), false);
         if ($this->helper('catalog/product')->canUseCanonicalTag())
         {
+            $this->setPageType('catalog_product');
             $url = Mage::registry('product')
                     ->getUrlModel()
                     ->getUrl(Mage::registry('product'), array('_ignore_category' => true));
@@ -170,6 +172,7 @@ class Loewenstark_Seo_Model_Observer
         /* @var $category Mage_Catalog_Model_Category */
         if (Mage::getStoreConfig(self::XML_PATH_CATEGORY_CANONICAL_TAG, $category->getStoreId()))
         {
+            $this->setPageType('catalog_category');
             $url = $this->cleanUrl($category->getUrl());
             if ($url != Mage::helper('core/url')->getCurrentUrl())
             {
@@ -380,6 +383,11 @@ class Loewenstark_Seo_Model_Observer
         return $this->parseUrl($url);;
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return string
+     */
     public function parseUrl($url)
     {
         $url = $this->cleanUrl($url);
@@ -418,7 +426,7 @@ class Loewenstark_Seo_Model_Observer
                     $product = Mage::getModel('catalog/product')->getCollection()
                         ->addAttributeToFilter('entity_id', $request->getParam('id'))
                         ->addStoreFilter()
-                        ->addAttributeToSelect('status')
+                        ->addAttributeToSelect(array('status'))
                         ->getFirstItem()
                     ;
                     if ($product['status'] != Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
@@ -435,7 +443,7 @@ class Loewenstark_Seo_Model_Observer
                         ->setStoreId(Mage::app()->getStore()->getStoreId())
                         ->getCollection()
                         ->addAttributeToFilter('entity_id', $request->getParam('id'))
-                        ->addAttributeToSelect('is_active')
+                        ->addAttributeToSelect(array('is_active'))
                         ->getFirstItem()
                     ;
                     if ($category['is_active'] != '1')
