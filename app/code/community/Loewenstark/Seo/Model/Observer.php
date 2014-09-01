@@ -424,19 +424,15 @@ class Loewenstark_Seo_Model_Observer
                 // Product
                 if (in_array('product', $path) && in_array($redirect_if_disabled, array('product', 'both')))
                 {
-                    $product = Mage::getModel('catalog/product')->getCollection()
-                        ->addAttributeToSelect(array('status', 'sku', 'name'))
-                        ->addAttributeToFilter('entity_id', $request->getParam('id'))
-                        ->addStoreFilter()
-                        ->getFirstItem()
-                    ;
+                    $product = Mage::getModel('catalog/product')->load($request->getParam('id'));
                     if ($product['status'] != Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                     {
-                        // Redirect to base url
+                        // Redirect to parent category or base url
                         $response->clearHeaders()->setRedirect($this->getRedirectForProduct($product), 301)->sendResponse();
                         exit;
                     }
                 }
+
                 // Category
                 if (in_array('category', $path) && in_array($redirect_if_disabled, array('category', 'both')))
                 {
@@ -449,8 +445,8 @@ class Loewenstark_Seo_Model_Observer
                     ;
                     if ($category['is_active'] != '1')
                     {
-                        // Redirect to base url
-                        $response->clearHeaders()->setRedirect(Mage::getBaseUrl(), 301)->sendResponse();
+                        // Redirect to parent category or base url
+                        $response->clearHeaders()->setRedirect($this->getRedirectForCategory($category), 301)->sendResponse();
                         exit;
                     }
                 }
@@ -462,6 +458,7 @@ class Loewenstark_Seo_Model_Observer
      * Get a parent category for a (disabled) product
      *
      * @param Mage_Catalog_Model_Product $product
+     * @return string Redirect url
      */
     protected function getRedirectForProduct(Mage_Catalog_Model_Product $product)
     {
@@ -469,12 +466,14 @@ class Loewenstark_Seo_Model_Observer
 
         if ($product->getCategoryIds())
         {
+            // Get all categories for the product
             $categories = Mage::getModel('catalog/category')->getCollection()
                 ->addAttributeToFilter('entity_id', array('in' => $product->getCategoryIds()))
                 ->addIsActiveFilter()
                 ->addUrlRewriteToResult()
             ;
 
+            // Don't use blacklisted categories (backend config)
             $blacklist = explode(',', Mage::getStoreConfig(self::XML_PATH_REDIRECT_BLACKLIST_CATEGORY_IDS));
             array_walk($blacklist, create_function('&$val', '$val = trim($val);'));
             $blacklist = array_filter($blacklist);
@@ -486,6 +485,8 @@ class Loewenstark_Seo_Model_Observer
                     $categories->addAttributeToFilter('path', array('nlike' => '%/' . $id . '/%'));
                 }
             }
+
+            // Return the first result
             foreach ($categories as $category)
             {
                 return $url . $category->getRequestPath();
@@ -495,7 +496,43 @@ class Loewenstark_Seo_Model_Observer
         return $url;
     }
 
+    /**
+     * Get a parent category for a (disabled) category
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return string Redirect url
+     */
     protected function getRedirectForCategory(Mage_Catalog_Model_Category $category)
     {
+        $url = Mage::getBaseUrl();
+
+        $path = array_reverse(explode('/', $category->getPath()));
+
+        $blacklist = explode(',', Mage::getStoreConfig(self::XML_PATH_REDIRECT_BLACKLIST_CATEGORY_IDS));
+        array_walk($blacklist, create_function('&$val', '$val = trim($val);'));
+        $blacklist = array_filter($blacklist);
+
+        $root_id = Mage::app()->getGroup()->getRootCategoryId();
+        foreach ($path as $id)
+        {
+            // When category root is reached return base url
+            if ($id == $root_id) return $url;
+
+            // Skip blacklisted categories
+            if (in_array($id, $blacklist)) continue;
+
+            $category = Mage::getModel('catalog/category')->getCollection()
+                ->addAttributeToFilter('entity_id', $id)
+                ->addUrlRewriteToResult()
+                ->addIsActiveFilter()
+            ;
+
+            if ($category->getId())
+            {
+                return $url . $category->getRequestPath();
+            }
+        }
+
+        return $url;
     }
 }
