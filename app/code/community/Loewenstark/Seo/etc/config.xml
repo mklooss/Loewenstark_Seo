@@ -24,6 +24,15 @@
                 </loewenstark_seo>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Loewenstark_Seo>
+                    <files>
+                        <default>Loewenstark_Seo.csv</default>
+                    </files>
+                </Loewenstark_Seo>
+            </modules>
+        </translate>
         <events>
             <controller_action_predispatch>
                 <observers>

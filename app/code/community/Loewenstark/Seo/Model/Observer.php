@@ -13,8 +13,9 @@ class Loewenstark_Seo_Model_Observer
 
     protected $_page_type = null;
 
-    const XML_PATH_CATEGORY_CANONICAL_TAG = 'catalog/seo/category_canonical_tag_seo';
-    const XML_PATH_REDIRECT_IF_DISABLED   = 'catalog/seo/redirect_if_disabled';
+    const XML_PATH_CATEGORY_CANONICAL_TAG          = 'catalog/seo/category_canonical_tag_seo';
+    const XML_PATH_REDIRECT_IF_DISABLED            = 'catalog/seo/redirect_if_disabled';
+    const XML_PATH_REDIRECT_BLACKLIST_CATEGORY_IDS = 'catalog/seo/redirect_blacklist_category_ids';
 
     /**
      * event: adminhtml_cms_page_edit_tab_meta_prepare_form
@@ -384,7 +385,7 @@ class Loewenstark_Seo_Model_Observer
     }
 
     /**
-     * 
+     *
      * @param string $url
      * @return string
      */
@@ -424,15 +425,15 @@ class Loewenstark_Seo_Model_Observer
                 if (in_array('product', $path) && in_array($redirect_if_disabled, array('product', 'both')))
                 {
                     $product = Mage::getModel('catalog/product')->getCollection()
+                        ->addAttributeToSelect(array('status', 'sku', 'name'))
                         ->addAttributeToFilter('entity_id', $request->getParam('id'))
                         ->addStoreFilter()
-                        ->addAttributeToSelect(array('status'))
                         ->getFirstItem()
                     ;
                     if ($product['status'] != Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                     {
                         // Redirect to base url
-                        $response->clearHeaders()->setRedirect(Mage::getBaseUrl(), 301)->sendResponse();
+                        $response->clearHeaders()->setRedirect($this->getRedirectForProduct($product), 301)->sendResponse();
                         exit;
                     }
                 }
@@ -455,5 +456,46 @@ class Loewenstark_Seo_Model_Observer
                 }
             }
         }
+    }
+
+    /**
+     * Get a parent category for a (disabled) product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function getRedirectForProduct(Mage_Catalog_Model_Product $product)
+    {
+        $url = Mage::getBaseUrl();
+
+        if ($product->getCategoryIds())
+        {
+            $categories = Mage::getModel('catalog/category')->getCollection()
+                ->addAttributeToFilter('entity_id', array('in' => $product->getCategoryIds()))
+                ->addIsActiveFilter()
+                ->addUrlRewriteToResult()
+            ;
+
+            $blacklist = explode(',', Mage::getStoreConfig(self::XML_PATH_REDIRECT_BLACKLIST_CATEGORY_IDS));
+            array_walk($blacklist, create_function('&$val', '$val = trim($val);'));
+            $blacklist = array_filter($blacklist);
+            if ($blacklist)
+            {
+                $categories->addAttributeToFilter('entity_id', array('nin' => $blacklist));
+                foreach ($blacklist as $id)
+                {
+                    $categories->addAttributeToFilter('path', array('nlike' => '%/' . $id . '/%'));
+                }
+            }
+            foreach ($categories as $category)
+            {
+                return $url . $category->getRequestPath();
+            }
+        }
+
+        return $url;
+    }
+
+    protected function getRedirectForCategory(Mage_Catalog_Model_Category $category)
+    {
     }
 }

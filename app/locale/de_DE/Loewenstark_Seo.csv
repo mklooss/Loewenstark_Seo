@@ -1,0 +1,8 @@
+"Robots Tag","Robots Tag"
+"Add Breadcrumb","Breadcrumb-Eintrag anzeigen"
+"Redirect if disabled","Umleiten, wenn deaktiviert"
+"When a category or a product is disabled redirect to former parent category.","Deaktivierte Kategorien oder Produkte auf ehem. Elternkategorie umleiten."
+"Search Engine Settings","Einstellungen für Suchmaschine"
+"Robots Tag for Customer Area","Robots-Tag für Kundenbereich"
+"Blacklist Category IDs","Ausgeschlossene Kategorie-IDs"
+"When checking for a redirect ignore these category ids (comma-separated).","Wenn nach der Elternkategorie gesucht wird, diese Kategorie-IDs ignorieren (komma-getrennt)."

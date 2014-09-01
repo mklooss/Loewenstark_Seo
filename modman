@@ -1,2 +1,4 @@
 app/etc/modules/Loewenstark_Seo.xml                                       app/etc/modules/Loewenstark_Seo.xml
 app/code/community/Loewenstark/Seo/                                       app/code/community/Loewenstark/Seo/
+app/locale/de_DE/Loewenstark_Seo.csv                                      app/locale/de_DE/Loewenstark_Seo.csv
+app/locale/en_US/Loewenstark_Seo.csv                                      app/locale/en_US/Loewenstark_Seo.csv
