@@ -68,6 +68,32 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </redirect_blacklist_category_ids>
+                        <meta_title_length translate="label comment" module="loewenstark_seo">
+                            <label>Meta title max length</label>
+                            <comment>Truncate meta titles of categories and products that are longer than this value.</comment>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meta_title_length>
+                        <category_meta_description_phrases translate="label comments" module="loewenstark_seo">
+                            <label>Category Meta Description Phrases</label>
+                            <comment>These phrases are used as/appended to the category meta description. One phrase per line.</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </category_meta_description_phrases>
+                        <product_meta_description_phrases translate="label comments" module="loewenstark_seo">
+                            <label>Product Meta Description Phrases</label>
+                            <comment>These phrases are used as/appended to the product meta description. One phrase per line.</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_meta_description_phrases>
                     </fields>
                 </seo>
                 <sitemap>

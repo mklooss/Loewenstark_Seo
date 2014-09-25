@@ -535,4 +535,57 @@ class Loewenstark_Seo_Model_Observer
 
         return $url;
     }
+
+    /**
+     * Add a phrase to the meta description of a category
+     */
+    public function addPhraseToMetaDescriptionCategory()
+    {
+        $category  = Mage::registry('current_category');
+        // Get all defined category phrases
+        $phrases = Mage::helper('loewenstark_seo')->getCategoryPhrases();
+
+        $this->setDescription($phrases, $category->getEntityId(), $category->getName());
+    }
+
+    /**
+     * Add a phrase to the meta description of a product
+     */
+    public function addPhraseToMetaDescriptionProduct()
+    {
+        $product  = Mage::registry('current_product');
+        // Get all defined product phrases
+        $phrases = Mage::helper('loewenstark_seo')->getProductPhrases();
+
+        $this->setDescription($phrases, $product->getEntityId(), $product->getName());
+    }
+
+    /**
+     * @param array  $phrases
+     * @param int    $id
+     * @param string $name
+     */
+    protected function setDescription($phrases, $id, $name)
+    {
+        // Determine how many chars we need to get from the product id depending on no. of phrases
+        $len = strlen((string) (count($phrases) - 1));
+
+        $phrase   = '';
+        $lastChar = (int) substr($id, -1 * $len, $len);
+
+        // Determine the exact phrase index for this product id
+        $idx = count($phrases) % $lastChar;
+
+        if (isset($phrases[$idx])) {
+            $phrase = html_entity_decode($phrases[$idx], null, 'UTF-8');
+        }
+
+        // Chop product name that is longer than X
+        $chop = Mage::getStoreConfig('catalog/seo/meta_title_length');
+        $name = Mage::helper('core/string')->truncate(str_replace('"', '', $name), $chop, '', $rem, false);
+
+        $headBlock = Mage::app()->getLayout()->getBlock('head');
+        $headBlock->setData('title', $name);
+        $headBlock->setDescription($name . $phrase);
+    }
 }
