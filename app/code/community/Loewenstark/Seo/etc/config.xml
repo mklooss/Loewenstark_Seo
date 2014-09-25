@@ -107,6 +107,11 @@
                         <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCatalogProduct</method>
                     </loewenstark_seo_contacts_index_index>
+                    <loewenstark_seo_add_phrase_to_meta_description>
+                        <type>singleton</type>
+                        <class>loewenstark_seo/observer</class>
+                        <method>addPhraseToMetaDescriptionProduct</method>
+                    </loewenstark_seo_add_phrase_to_meta_description>
                 </observers>
             </controller_action_layout_render_before_catalog_product_view>
             <controller_action_layout_render_before_catalog_category_view>
@@ -116,6 +121,11 @@
                         <class>loewenstark_seo/observer</class>
                         <method>addRobotsTagToCatalogCategory</method>
                     </loewenstark_seo_contacts_index_index>
+                    <loewenstark_seo_add_phrase_to_meta_description>
+                        <type>singleton</type>
+                        <class>loewenstark_seo/observer</class>
+                        <method>addPhraseToMetaDescriptionCategory</method>
+                    </loewenstark_seo_add_phrase_to_meta_description>
                 </observers>
             </controller_action_layout_render_before_catalog_category_view>
         </events>
@@ -191,6 +201,7 @@
             </sitemap>
             <seo>
                 <category_canonical_tag>1</category_canonical_tag>
+                <meta_title_length>55</meta_title_length>
                 <product_canonical_tag>1</product_canonical_tag>
             </seo>
         </catalog>
