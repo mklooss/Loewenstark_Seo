@@ -81,7 +81,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function isPhraseEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_CATALOG_PHRASES_STATE);
+        return !Mage::getStoreConfigFlag(self::XML_PATH_CATALOG_PHRASES_STATE);
     }
 
     /**
