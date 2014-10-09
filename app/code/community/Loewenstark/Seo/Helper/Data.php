@@ -18,6 +18,7 @@ extends Mage_Core_Helper_Abstract
     const XML_PATH_SITEMAP_ROBOTS      = 'catalog/sitemap/robots';
     const XML_PATH_CONTACTS_BREADCRUMB = 'contacts/contacts/breadcrumb';
     const XML_PATH_CHECKOUT_ROBOTS     = 'checkout/cart/robots';
+    const XML_PATH_CATALOG_PHRASES_STATE = 'catalog/seo/disabled_phrases';
 
     /**
      * get Default Robots Tag from main configuration
@@ -72,6 +73,15 @@ extends Mage_Core_Helper_Abstract
     public function getCheckoutRobots()
     {
         return Mage::getStoreConfig(self::XML_PATH_CHECKOUT_ROBOTS);
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function isPhraseEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_CATALOG_PHRASES_STATE);
     }
 
     /**

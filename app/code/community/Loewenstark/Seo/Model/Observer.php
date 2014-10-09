@@ -539,25 +539,31 @@ class Loewenstark_Seo_Model_Observer
     /**
      * Add a phrase to the meta description of a category
      */
-    public function addPhraseToMetaDescriptionCategory()
+    public function addPhraseToMetaDescriptionCategory($event)
     {
-        $category  = Mage::registry('current_category');
-        // Get all defined category phrases
-        $phrases = Mage::helper('loewenstark_seo')->getCategoryPhrases();
+        if($this->_helper()->isPhraseEnabled())
+        {
+            $category  = Mage::registry('current_category');
+            // Get all defined category phrases
+            $phrases = Mage::helper('loewenstark_seo')->getCategoryPhrases();
 
-        $this->setDescription($phrases, $category->getEntityId(), $category->getName());
+            $this->setDescription($phrases, $category->getEntityId(), $category->getName());
+        }
     }
 
     /**
      * Add a phrase to the meta description of a product
      */
-    public function addPhraseToMetaDescriptionProduct()
+    public function addPhraseToMetaDescriptionProduct($event)
     {
-        $product  = Mage::registry('current_product');
-        // Get all defined product phrases
-        $phrases = Mage::helper('loewenstark_seo')->getProductPhrases();
+        if($this->_helper()->isPhraseEnabled())
+        {
+            $product  = Mage::registry('current_product');
+            // Get all defined product phrases
+            $phrases = Mage::helper('loewenstark_seo')->getProductPhrases();
 
-        $this->setDescription($phrases, $product->getEntityId(), $product->getName());
+            $this->setDescription($phrases, $product->getEntityId(), $product->getName());
+        }
     }
 
     /**
