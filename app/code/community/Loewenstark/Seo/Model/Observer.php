@@ -578,7 +578,11 @@ class Loewenstark_Seo_Model_Observer
 
         $phrase   = '';
         $lastChar = (int) substr($id, -1 * $len, $len);
-
+        // make shure that there is no Division by zero 
+        if($lastChar < 1)
+        {
+            return;
+        }
         // Determine the exact phrase index for this product id
         $idx = count($phrases) % $lastChar;
 
