@@ -18,13 +18,13 @@
     </modules>
     <frontend>
         <routers>
-            <Loewenstark_Seo_RobotsTxt>
+            <loewenstark_seo>
                 <use>standard</use>
                 <args>
                     <module>Loewenstark_Seo</module>
                     <frontName>robots.txt</frontName>
                 </args>
-            </Loewenstark_Seo_RobotsTxt>
+            </loewenstark_seo>
         </routers>
         <layout>
             <updates>

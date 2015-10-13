@@ -1,5 +1,12 @@
 <?php
-class Loewenstark_Seo_RobotstxtController extends Mage_Core_Controller_Front_Action
+/**
+ * This is the controller for rendering the robots.txt file.
+ *
+ * @category  Loewenstark
+ * @package   Loewenstark_Seo
+ * @author    Volker Thiel <volker@mage-profis.de>
+ */
+class Loewenstark_Seo_IndexController extends Mage_Core_Controller_Front_Action
 {
     private $_helper;
 
