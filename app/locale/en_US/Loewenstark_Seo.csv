@@ -12,3 +12,4 @@
 "Product Meta Description Phrases","Product Meta Description Phrases"
 "These phrases are used as/appended to the category meta description. One phrase per line.","These phrases are used as/appended to the category meta description. One phrase per line."
 "These phrases are used as/appended to the product meta description. One phrase per line.","These phrases are used as/appended to the product meta description. One phrase per line."
+"This content is rendered when http://domain.com/robots.txt is accessed. Magento short-codes (e.g. <strong>{{store direct_url=""""}}</strong>) are available.","This content is rendered when http://domain.com/robots.txt is accessed. Magento short-codes (e.g. <strong>{{store direct_url=""""}}</strong>) are available."

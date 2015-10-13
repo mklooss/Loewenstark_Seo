@@ -13,10 +13,19 @@
 <config>
     <modules>
         <Loewenstark_Seo>
-            <version>1.0.0.1</version>
+            <version>1.0.1.0</version>
         </Loewenstark_Seo>
     </modules>
     <frontend>
+        <routers>
+            <Loewenstark_Seo_RobotsTxt>
+                <use>standard</use>
+                <args>
+                    <module>Loewenstark_Seo</module>
+                    <frontName>robots.txt</frontName>
+                </args>
+            </Loewenstark_Seo_RobotsTxt>
+        </routers>
         <layout>
             <updates>
                 <loewenstark_seo>
@@ -204,6 +213,33 @@
                 <meta_title_length>55</meta_title_length>
                 <product_canonical_tag>1</product_canonical_tag>
                 <disabled_phrases>0</disabled_phrases>
+                <robotstxt><![CDATA[User-Agent: *
+Sitemap: {{store direct_url="sitemap.xml"}}
+User-agent: *
+Disallow: /index.php/
+Disallow: /*?
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.php$
+Disallow: /admin/
+Disallow: /app/
+Disallow: /catalog/
+Disallow: /catalogsearch/
+Disallow: /checkout/
+Disallow: /customer/
+Disallow: /downloader/
+Disallow: /js/
+Disallow: /lib/
+Disallow: /media/
+Disallow: /newsletter/
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /review/
+Disallow: /skin/
+Disallow: /var/
+Disallow: /wishlist/
+Allow: /media/catalog/
+Allow: /media/wysiwyg/]]></robotstxt>
             </seo>
         </catalog>
         <customer>
