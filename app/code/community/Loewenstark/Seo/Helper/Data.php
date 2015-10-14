@@ -27,7 +27,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function getDefaultRobots()
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_ROBOTS);;
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_ROBOTS);
     }
 
     /**
@@ -76,7 +76,7 @@ extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function isPhraseEnabled()

@@ -381,7 +381,7 @@ class Loewenstark_Seo_Model_Observer
     {
         $params['_nosid'] = true;
         $url = Mage::getUrl($url, $params);
-        return $this->parseUrl($url);;
+        return $this->parseUrl($url);
     }
 
     /**
