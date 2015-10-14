@@ -121,6 +121,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </product_meta_description_phrases>
+                        <robotstxt translate="label comment" module="loewenstark_seo">
+                            <label>robots.txt</label>
+                            <comment><![CDATA[This content is rendered when http://domain.com/robots.txt is accessed. Magento short-codes, e.g. <strong>{{store direct_url=""}}</strong>, are available.]]></comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </robotstxt>
                     </fields>
                 </seo>
                 <sitemap>
