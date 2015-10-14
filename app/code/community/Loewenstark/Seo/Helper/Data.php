@@ -27,7 +27,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function getDefaultRobots()
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_ROBOTS);
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_ROBOTS);;
     }
 
     /**
@@ -76,7 +76,7 @@ extends Mage_Core_Helper_Abstract
     }
 
     /**
-     *
+     * 
      * @return string
      */
     public function isPhraseEnabled()
@@ -85,22 +85,58 @@ extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return array Category phrases
+     * @return array Category description phrases
      */
-    public function getCategoryPhrases()
+    public function getCategoryDescriptionPhrases()
     {
         $raw = Mage::getStoreConfig('catalog/seo/category_meta_description_phrases');
         $split = '--split--';
+
+        //check if no line break is in $raw
+        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
 
     /**
-     * @return array Product phrases
+     * @return array Product description phrases
      */
-    public function getProductPhrases()
+    public function getProductDescriptionPhrases()
     {
         $raw = Mage::getStoreConfig('catalog/seo/product_meta_description_phrases');
         $split = '--split--';
+        
+        //check if no line break is in $raw
+        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        
+        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+    }
+    
+    /**
+     * @return array Category title phrases
+     */
+    public function getCategoryTitlePhrases()
+    {
+        $raw = Mage::getStoreConfig('catalog/seo/category_meta_title_phrases');
+        $split = '--split--';
+        
+        //check if no line break is in $raw
+        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        
+        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+    }
+
+    /**
+     * @return array Product title phrases
+     */
+    public function getProductTitlePhrases()
+    {
+        $raw = Mage::getStoreConfig('catalog/seo/product_meta_title_phrases');
+        $split = '--split--';
+        
+        //check if no line break is in $raw
+        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
 }
