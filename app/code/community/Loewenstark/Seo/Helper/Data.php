@@ -21,6 +21,11 @@ extends Mage_Core_Helper_Abstract
     const XML_PATH_CHECKOUT_ROBOTS     = 'checkout/cart/robots';
     const XML_PATH_CATALOG_PHRASES_STATE = 'catalog/seo/disabled_phrases';
 
+    protected $_categoryTitlePhrases       = array();
+    protected $_categoryDescriptionPhrases = array();
+    protected $_productTitlePhrases        = array();
+    protected $_productDescriptionPhrases  = array();
+
     /**
      * get Default Robots Tag from main configuration
      *
@@ -86,58 +91,70 @@ extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get all category description phrases defined in system config
+     *
      * @return array Category description phrases
      */
     public function getCategoryDescriptionPhrases()
     {
+        if ($this->_categoryDescriptionPhrases) {
+            return $this->_categoryDescriptionPhrases;
+        }
         $raw = Mage::getStoreConfig('catalog/seo/category_meta_description_phrases');
-        $split = '--split--';
 
-        //check if no line break is in $raw
-        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        $this->_categoryDescriptionPhrases = array_filter(preg_split ('/\R/', $raw));
 
-        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+        return $this->_categoryDescriptionPhrases;
     }
 
     /**
+     * Get all product description phrases defined in system config
+     *
      * @return array Product description phrases
      */
     public function getProductDescriptionPhrases()
     {
+        if ($this->_productDescriptionPhrases) {
+            return $this->_productDescriptionPhrases;
+        }
         $raw = Mage::getStoreConfig('catalog/seo/product_meta_description_phrases');
-        $split = '--split--';
 
-        //check if no line break is in $raw
-        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        $this->_productDescriptionPhrases = array_filter(preg_split ('/\R/', $raw));
 
-        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+        return $this->_productDescriptionPhrases;
     }
 
     /**
+     * Get all category title phrases defined in system config
+     *
      * @return array Category title phrases
      */
     public function getCategoryTitlePhrases()
     {
+        if ($this->_categoryTitlePhrases) {
+            return $this->_categoryTitlePhrases;
+        }
         $raw = Mage::getStoreConfig('catalog/seo/category_meta_title_phrases');
-        $split = '--split--';
 
-        //check if no line break is in $raw
-        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        $this->_categoryTitlePhrases = array_filter(preg_split ('/\R/', $raw));
 
-        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+        return $this->_categoryTitlePhrases;
     }
 
     /**
+     * Get all product title phrases defined in system config
+     *
      * @return array Product title phrases
      */
     public function getProductTitlePhrases()
     {
+        if ($this->_productTitlePhrases) {
+            return $this->_productTitlePhrases;
+        }
         $raw = Mage::getStoreConfig('catalog/seo/product_meta_title_phrases');
-        $split = '--split--';
 
-        //check if no line break is in $raw
-        if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
+        $this->_productTitlePhrases = array_filter(preg_split ('/\R/', $raw));
 
-        return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
+        return $this->_productTitlePhrases;
     }
 }
