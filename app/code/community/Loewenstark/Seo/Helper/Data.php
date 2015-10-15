@@ -11,6 +11,7 @@
 class Loewenstark_Seo_Helper_Data
 extends Mage_Core_Helper_Abstract
 {
+    const ATTR_CODE_SEO_TEXT           = 'seo_text';
 
     const XML_PATH_DEFAULT_ROBOTS      = 'design/head/default_robots';
     const XML_PATH_CUSTOMER_ROBOTS     = 'customer/loewenstark_seo/robots';
@@ -94,7 +95,7 @@ extends Mage_Core_Helper_Abstract
 
         //check if no line break is in $raw
         if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
-        
+
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
 
@@ -105,13 +106,13 @@ extends Mage_Core_Helper_Abstract
     {
         $raw = Mage::getStoreConfig('catalog/seo/product_meta_description_phrases');
         $split = '--split--';
-        
+
         //check if no line break is in $raw
         if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
-        
+
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
-    
+
     /**
      * @return array Category title phrases
      */
@@ -119,10 +120,10 @@ extends Mage_Core_Helper_Abstract
     {
         $raw = Mage::getStoreConfig('catalog/seo/category_meta_title_phrases');
         $split = '--split--';
-        
+
         //check if no line break is in $raw
         if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
-        
+
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
 
@@ -133,10 +134,10 @@ extends Mage_Core_Helper_Abstract
     {
         $raw = Mage::getStoreConfig('catalog/seo/product_meta_title_phrases');
         $split = '--split--';
-        
+
         //check if no line break is in $raw
         if ( !preg_match("/\\r\\n?|\\n/", $raw) ) return array_values(array_filter(array( $raw )));
-        
+
         return array_values(array_filter(explode($split, str_replace(array("\r\n", "\n", "\r"), $split, $raw))));
     }
 }
