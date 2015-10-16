@@ -135,6 +135,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </robotstxt>
+                        <category_seo_text_attributes translate="label comment" module="loewenstark_seo">
+                            <label>Category SEO-Text Attributes</label>
+                            <comment><![CDATA[Create custom textarea attributes for seo text for categorys. Attribute code will be <strong>loe_seo_text_yourcode</strong>.]]></comment>
+                            <frontend_model>loewenstark_seo/config_categoryAttributes</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </category_seo_text_attributes>
                     </fields>
                 </seo>
                 <sitemap>

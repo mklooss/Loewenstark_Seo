@@ -39,6 +39,56 @@ class Loewenstark_Seo_Model_Observer
             'disabled'  => $isElementDisabled,
         ));
     }
+    
+    /**
+     * event: admin_system_config_section_save_after
+     * in: Mage_Adminhtml_System_ConfigController::saveAction()
+     *
+     * @param $event Varien_Event_Observer
+     * @return void
+     */
+    public function createSeoTextAttributes(Varien_Event_Observer $event)
+    {
+        $_helper = Mage::helper('loewenstark_seo/CategoryAttributes');
+        $setup = Mage::getModel('catalog/resource_setup', 'core/resource');
+        $setup->startSetup();
+        
+        $democonfig = array("test", "xx");
+        
+        //delete old attributes
+        foreach( $_helper->getAttributeCodes() as $attrcode ){
+            $attrcode_suffix = substr($attrcode, 13);  //convert loe_seo_text_demo to demo
+            
+            if ( preg_match("/^loe_seo_text_/", $attrcode) && !in_array($attrcode_suffix, $democonfig) ) {
+                $setup->removeAttribute('catalog_category', $attrcode);
+                var_dump($attrcode.' deleted<br />');
+            }
+        }
+        
+        //create not existing attributes
+        foreach($democonfig as $index=>$attrcode_suffix){
+            $attrcode = "loe_seo_text_" . $attrcode_suffix;
+            
+            if ( !$_helper->checkIfAttributeExists($attrcode) ){
+                $setup->addAttribute("catalog_category", $attrcode, array(
+                    'label'                      => 'SEO Text "'.$attrcode_suffix.'"',
+                    'group'                      => 'SEO',
+                    'type'                       => 'text',
+                    'input'                      => 'textarea',
+                    'sort_order'                 => $index,
+                    'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+                    'required'                   => false,
+                    'user_defined'               => true,
+                    'visible_on_front'           => true,
+                    'wysiwyg_enabled'            => true,
+                    'is_html_allowed_on_front'   => true
+                ));
+            }
+        }
+
+        $setup->endSetup();
+        
+    }
 
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();

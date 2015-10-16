@@ -168,6 +168,11 @@
                 <class>Loewenstark_Seo_Helper</class>
             </loewenstark_seo>
         </helpers>
+        <blocks>
+            <loewenstark_seo>
+                <class>Loewenstark_Seo_Block</class>
+            </loewenstark_seo>
+        </blocks>
         <events>
             <adminhtml_cms_page_edit_tab_meta_prepare_form>
                 <observers>
@@ -178,6 +183,15 @@
                     </loewenstark_seo_catalog_product_get_final_price>
                 </observers>
             </adminhtml_cms_page_edit_tab_meta_prepare_form>
+            <admin_system_config_section_save_after>
+                <observers>
+                    <loewenstark_seo_config_section_save_after>
+                        <type>singleton</type>
+                        <class>loewenstark_seo/observer</class>
+                        <method>createSeoTextAttributes</method>
+                    </loewenstark_seo_config_section_save_after>
+                </observers>
+            </admin_system_config_section_save_after>
         </events>
     </global>
     <adminhtml>
