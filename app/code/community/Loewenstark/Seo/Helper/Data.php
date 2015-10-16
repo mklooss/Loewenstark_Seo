@@ -19,7 +19,7 @@ extends Mage_Core_Helper_Abstract
     const XML_PATH_SITEMAP_ROBOTS      = 'catalog/sitemap/robots';
     const XML_PATH_CONTACTS_BREADCRUMB = 'contacts/contacts/breadcrumb';
     const XML_PATH_CHECKOUT_ROBOTS     = 'checkout/cart/robots';
-    const XML_PATH_CATALOG_PHRASES_STATE = 'catalog/seo/disabled_phrases';
+    const XML_PATH_CATALOG_PHRASES_ENABLED = 'catalog/seo/phrases_enabled';
 
     protected $_categoryTitlePhrases       = array();
     protected $_categoryDescriptionPhrases = array();
@@ -87,7 +87,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function isPhraseEnabled()
     {
-        return !Mage::getStoreConfigFlag(self::XML_PATH_CATALOG_PHRASES_STATE);
+        return (bool) Mage::getStoreConfigFlag(self::XML_PATH_CATALOG_PHRASES_ENABLED);
     }
 
     /**
