@@ -6,8 +6,12 @@
    "homepage": "https://github.com/mklooss/Loewenstark_Seo",
    "authors":[
         {
-            "name":"Mathis Klooss",
-            "name":"Volker Thiel",
+            "name":"Mathis Klooss"
+        },
+        {
+            "name":"Volker Thiel"
+        },
+        {
             "name":"Leon Weickert"
         }
     ],
