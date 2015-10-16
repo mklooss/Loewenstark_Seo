@@ -212,7 +212,7 @@
                 <category_canonical_tag>1</category_canonical_tag>
                 <meta_title_length>55</meta_title_length>
                 <product_canonical_tag>1</product_canonical_tag>
-                <disabled_phrases>0</disabled_phrases>
+                <phrases_enabled>1</phrases_enabled>
                 <robotstxt><![CDATA[User-Agent: *
 Sitemap: {{store direct_url="sitemap.xml"}}
 User-agent: *

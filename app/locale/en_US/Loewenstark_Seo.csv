@@ -8,6 +8,8 @@
 "When checking for a redirect ignore these category ids (comma-separated).","When checking for a redirect ignore these category ids (comma-separated)."
 "Meta title max length","Meta title max length"
 "Truncate meta titles of categories and products that are longer than this value.","Truncate meta titles of categories and products that are longer than this value."
+"Phrases enabled","Phrases enabled"
+"If enabled, you can specify a set of meta titles and descriptions for categories and products, that will be used if no meta data is found.","If enabled, you can specify a set of meta titles and descriptions for categories and products, that will be used if no meta data is found."
 "Default Category Meta Titles","Default Category Meta Titles"
 "Default Category Meta Descriptions","Default Category Meta Descriptions"
 "Default Product Meta Titles","Default Product Meta Titles"

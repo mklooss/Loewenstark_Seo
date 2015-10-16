@@ -8,6 +8,8 @@
 "When checking for a redirect ignore these category ids (comma-separated).","Wenn nach der Elternkategorie gesucht wird, diese Kategorie-IDs ignorieren (komma-getrennt)."
 "Meta title max length","Meta-Title Maximallänge"
 "Truncate meta titles of categories and products that are longer than this value.","Der Meta-Title von Kategorien und Produkten wird nach dieser Anzahl Zeichen abgeschnitten."
+"Phrases enabled","Standard-Metas aktivieren"
+"If enabled, you can specify a set of meta titles and descriptions for categories and products, that will be used if no meta data is found.","Erlaubt die Eingabe von Meta-Daten (Title + Description) für Kategorien und Produkte, die angezeigt werden, wenn diese Angaben fehlen."
 "Default Category Meta Titles","Standard Kategorie Meta-Titel"
 "Default Category Meta Descriptions","Standard Kategorie Meta-Beschreibungen"
 "Default Product Meta Titles","Standard Produkt Meta-Titel"
