@@ -49,7 +49,7 @@ class Loewenstark_Seo_Model_Observer
      */
     public function createSeoTextAttributes(Varien_Event_Observer $event)
     {
-        $_helper = Mage::helper('loewenstark_seo/CategoryAttributes');
+        $_helper = Mage::helper('loewenstark_seo/categoryattributes');
         $setup = Mage::getModel('catalog/resource_setup', 'core/resource');
         $setup->startSetup();
         

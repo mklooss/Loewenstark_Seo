@@ -13,6 +13,7 @@ extends Mage_Core_Helper_Abstract
 {
     
     const XML_PATH_LOEWENSTARK_SEO_TEXT_ATTRIBUTES = 'catalog/seo/category_seo_text_attributes';
+    const LOEWENSTARK_SEO_TEXT_CATEGORY_ATTRIBUTES_PREFIX = 'loe_seo_text_';
     
     protected $_categoryAttributes  = array();
     
@@ -43,8 +44,11 @@ extends Mage_Core_Helper_Abstract
                 
                 //save config
                 if ($updateconfig){
-                    $mageconfig = new Mage_Core_Model_Config();
-                    $mageconfig ->saveConfig('catalog/seo/category_seo_text_attributes', serialize($arr), 'default', 0);
+                    $mageconfig = Mage::app()->getConfig();
+                    $mageconfig->saveConfig('catalog/seo/category_seo_text_attributes', serialize($arr), 'default', 0);
+                    
+                    //refresh magento configuration cache
+                    Mage::app()->getCacheInstance()->cleanType('config');
                 }
                     
                 return $arr;
@@ -76,7 +80,7 @@ extends Mage_Core_Helper_Abstract
     {
         $i = 0;
         foreach ($config as $index=>$config_row){
-            $attrcode = "loe_seo_text_" . $config_row['attrcode_suffix'];
+            $attrcode = self::LOEWENSTARK_SEO_TEXT_CATEGORY_ATTRIBUTES_PREFIX . $config_row['attrcode_suffix'];
             
             if ( !$this->checkIfAttributeExists($attrcode) ){
                 $setup->addAttribute("catalog_category", $attrcode, array(
@@ -116,7 +120,7 @@ extends Mage_Core_Helper_Abstract
         foreach ( $this->getAttributeCodes() as $attrcode ){
             $attrcode_suffix = substr($attrcode, 13);  //convert loe_seo_text_demo to demo
             
-            if ( preg_match("/^loe_seo_text_/", $attrcode) && !in_array($attrcode_suffix, $config_suffixes) ) {
+            if ( preg_match("/^".self::LOEWENSTARK_SEO_TEXT_CATEGORY_ATTRIBUTES_PREFIX."/", $attrcode) && !in_array($attrcode_suffix, $config_suffixes) ) {
                 $setup->removeAttribute('catalog_category', $attrcode);
             }
         }
