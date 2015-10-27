@@ -631,11 +631,13 @@ class Loewenstark_Seo_Model_Observer
     {
         $phrases = array_values($phrases);
 
-        // Determine the phrase index for given id
-        $idx = $id % count($phrases);
+        if ($phrases) {
+            // Determine the phrase index for given id
+            $idx = $id % count($phrases);
 
-        if (isset($phrases[$idx])) {
-            return html_entity_decode($phrases[$idx], null, 'UTF-8');
+            if (isset($phrases[$idx])) {
+                return html_entity_decode($phrases[$idx], null, 'UTF-8');
+            }
         }
 
         return false;
