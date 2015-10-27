@@ -7,6 +7,12 @@
    "authors":[
         {
             "name":"Mathis Klooss"
+        },
+        {
+            "name":"Volker Thiel"
+        },
+        {
+            "name":"Leon Weickert"
         }
     ],
    "require": {

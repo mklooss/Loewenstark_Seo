@@ -527,7 +527,7 @@ class Loewenstark_Seo_Model_Observer
                 ->addIsActiveFilter()
             ;
 
-            if ($category->getId())
+            if ($category->getEntityId())
             {
                 return $url . $category->getRequestPath();
             }
@@ -539,64 +539,107 @@ class Loewenstark_Seo_Model_Observer
     /**
      * Add a phrase to the meta description of a category
      */
-    public function addPhraseToMetaDescriptionCategory($event)
+    public function addPhraseToMetaCategory($event)
     {
-        if($this->_helper()->isPhraseEnabled())
-        {
-            $category  = Mage::registry('current_category');
-            // Get all defined category phrases
-            $phrases = Mage::helper('loewenstark_seo')->getCategoryPhrases();
+        if ($this->_helper()->isPhraseEnabled()) {
+            $category = Mage::registry('current_category');
 
-            $this->setDescription($phrases, $category->getEntityId(), $category->getName());
+            if (!$category->getMetaTitle()) {
+                $this->setCategoryMetaTitle($category);
+            }
+            if (!$category->getMetaDescription()) {
+                $this->setCategoryMetaDescription($category);
+            }
         }
     }
 
     /**
-     * Add a phrase to the meta description of a product
+     * Add a phrase to the meta description of a category
      */
-    public function addPhraseToMetaDescriptionProduct($event)
+    public function addPhraseToMetaProduct($event)
     {
-        if($this->_helper()->isPhraseEnabled())
-        {
-            $product  = Mage::registry('current_product');
-            // Get all defined product phrases
-            $phrases = Mage::helper('loewenstark_seo')->getProductPhrases();
+        if ($this->_helper()->isPhraseEnabled()) {
+            $product = Mage::registry('current_product');
 
-            $this->setDescription($phrases, $product->getEntityId(), $product->getName());
+            if (!$product->getMetaTitle()) {
+                $this->setProductMetaTitle($product);
+            }
+            if (!$product->getMetaDescription()) {
+                $this->setProductMetaDescription($product);
+            }
         }
     }
 
     /**
-     * @param array  $phrases
-     * @param int    $id
-     * @param string $name
+     * Set meta title for category
+     *
+     * @param Mage_Catalog_Model_Category $category Category object
      */
-    protected function setDescription($phrases, $id, $name)
+    protected function setCategoryMetaTitle(Mage_Catalog_Model_Category $category)
     {
-        // Determine how many chars we need to get from the product id depending on no. of phrases
-        $len = strlen((string) (count($phrases) - 1));
+        $title = $this->getPhrase(Mage::helper('loewenstark_seo')->getCategoryTitlePhrases(), $category->getId());
+        $title = str_replace(array('{{product_name}}', '{{category_name}}'), $category->getName(), $title);
+        Mage::app()->getLayout()->getBlock('head')->setTitle($title);
+    }
 
-        $phrase   = '';
-        $lastChar = (int) substr($id, -1 * $len, $len);
+    /**
+     * Set meta title for product
+     *
+     * @param Mage_Catalog_Model_Product $product Product object
+     */
+    protected function setProductMetaTitle(Mage_Catalog_Model_Product $product)
+    {
+        $title = $this->getPhrase(Mage::helper('loewenstark_seo')->getProductTitlePhrases(), $product->getId());
+        $title = str_replace(array('{{product_name}}', '{{category_name}}'), $product->getName(), $title);
+        Mage::app()->getLayout()->getBlock('head')->setTitle($title);
+    }
 
-        // Ensure that there is no division by zero
-        if ($lastChar < 1) {
-            return;
+    /**
+     * Set meta description for category
+     *
+     * @param Mage_Catalog_Model_Category $category Category object
+     */
+    protected function setCategoryMetaDescription(Mage_Catalog_Model_Category $category)
+    {
+        $title = $this->getPhrase(Mage::helper('loewenstark_seo')->getCategoryDescriptionPhrases(), $category->getId());
+        $title = str_replace(array('{{product_name}}', '{{category_name}}'), $category->getName(), $title);
+        Mage::app()->getLayout()->getBlock('head')->setDescription($title);
+    }
+
+    /**
+     * Set meta description for product
+     *
+     * @param Mage_Catalog_Model_Product $product Product object
+     */
+    protected function setProductMetaDescription(Mage_Catalog_Model_Product $product)
+    {
+        $title = $this->getPhrase(Mage::helper('loewenstark_seo')->getProductDescriptionPhrases(), $product->getId());
+        $title = str_replace(array('{{product_name}}', '{{category_name}}'), $product->getName(), $title);
+        Mage::app()->getLayout()->getBlock('head')->setDescription($title);
+    }
+
+    /**
+     * Determine a phrase for a given id. Will always return the same
+     * phrase for the same id, independent from no. of phrases.
+     *
+     * @param array  $phrases List with phrases
+     * @param int    $id      Category/Product ID
+     *
+     * @return string
+     */
+    protected function getPhrase($phrases, $id)
+    {
+        $phrases = array_values($phrases);
+
+        if ($phrases) {
+            // Determine the phrase index for given id
+            $idx = $id % count($phrases);
+
+            if (isset($phrases[$idx])) {
+                return html_entity_decode($phrases[$idx], null, 'UTF-8');
+            }
         }
 
-        // Determine the exact phrase index for this product id
-        $idx = count($phrases) % $lastChar;
-
-        if (isset($phrases[$idx])) {
-            $phrase = html_entity_decode($phrases[$idx], null, 'UTF-8');
-        }
-
-        // Chop product name that is longer than X
-        $chop = Mage::getStoreConfig('catalog/seo/meta_title_length');
-        $name = Mage::helper('core/string')->truncate(str_replace('"', '', $name), $chop, '', $rem, false);
-
-        $headBlock = Mage::app()->getLayout()->getBlock('head');
-        $headBlock->setData('title', $name);
-        $headBlock->setDescription($name . $phrase);
+        return false;
     }
 }
