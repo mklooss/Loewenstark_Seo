@@ -441,6 +441,8 @@ class Loewenstark_Seo_Model_Observer
                         ->getCollection()
                         ->addAttributeToFilter('entity_id', $request->getParam('id'))
                         ->addAttributeToSelect(array('is_active'))
+                        ->setPageSize(1)
+                        ->setCurPage(1)
                         ->getFirstItem()
                     ;
                     if ($category['is_active'] != '1')
@@ -525,6 +527,9 @@ class Loewenstark_Seo_Model_Observer
                 ->addAttributeToFilter('entity_id', $id)
                 ->addUrlRewriteToResult()
                 ->addIsActiveFilter()
+                ->setPageSize(1)
+                ->setCurPage(1)
+                ->getFirstItem()
             ;
 
             if ($category->getEntityId())
