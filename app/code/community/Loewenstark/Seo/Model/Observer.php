@@ -527,7 +527,7 @@ class Loewenstark_Seo_Model_Observer
                 ->addIsActiveFilter()
             ;
 
-            if ($category->getId())
+            if ($category->getEntityId())
             {
                 return $url . $category->getRequestPath();
             }
