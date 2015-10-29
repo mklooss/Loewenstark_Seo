@@ -39,6 +39,32 @@ class Loewenstark_Seo_Model_Observer
             'disabled'  => $isElementDisabled,
         ));
     }
+    
+    /**
+     * event: admin_system_config_section_save_after
+     * in: Mage_Adminhtml_System_ConfigController::saveAction()
+     *
+     * @param $event Varien_Event_Observer
+     * @return void
+     */
+    public function createSeoTextAttributes(Varien_Event_Observer $event)
+    {
+        $_helper = Mage::helper('loewenstark_seo/categoryattributes');
+        $setup = Mage::getModel('catalog/resource_setup', 'core/resource');
+        $setup->startSetup();
+        
+        //get attributes from config and validate
+        $config = $_helper->getSeoTextAttributeCodes();
+        
+        //delete old attributes
+        $_helper->deleteAttributesFromCategory( $setup, $config );
+        
+        //create not existing attributes
+        $_helper->addAttributesToCategory( $setup, $config );
+
+        $setup->endSetup();
+        
+    }
 
     /**
      * event: controller_action_layout_render_before_ . $this->getFullActionName();
