@@ -17,6 +17,7 @@ extends Mage_Core_Helper_Abstract
     const XML_PATH_CUSTOMER_ROBOTS     = 'customer/loewenstark_seo/robots';
     const XML_PATH_CONTACTS_ROBOTS     = 'contacts/contacts/robots';
     const XML_PATH_SITEMAP_ROBOTS      = 'catalog/sitemap/robots';
+    const XML_PATH_SEARCH_ROBOTS       = 'catalog/search/robots';
     const XML_PATH_CONTACTS_BREADCRUMB = 'contacts/contacts/breadcrumb';
     const XML_PATH_CHECKOUT_ROBOTS     = 'checkout/cart/robots';
     const XML_PATH_CATALOG_PHRASES_ENABLED = 'catalog/seo/phrases_enabled';
@@ -70,6 +71,15 @@ extends Mage_Core_Helper_Abstract
     public function getSitemapRobots()
     {
         return Mage::getStoreConfig(self::XML_PATH_SITEMAP_ROBOTS);
+    }
+
+    /**
+     * Robots in catalog/seo_sitemap
+     * @return string
+     */
+    public function getSearchRobots()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SEARCH_ROBOTS);
     }
 
     /**
