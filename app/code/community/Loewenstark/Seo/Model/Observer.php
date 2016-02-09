@@ -302,13 +302,21 @@ class Loewenstark_Seo_Model_Observer
      */
     public function _setRobotsHeader($value, $addToHtmlHead = true)
     {
-        if (empty($value))
-        {
+        if (empty($value)) {
             $value = $this->_helper()->getDefaultRobots();
         }
+
+        // If REQUEST_URI contains parameters change value to NOINDEX
+        if (strstr(Mage::app()->getRequest()->getRequestUri(), '?')) {
+            if (strstr(strtolower($value), 'nofollow')) {
+                $value = (string) Mage::app()->getConfig()->getNode('robots/noindex_nofollow');
+            } else {
+                $value = (string) Mage::app()->getConfig()->getNode('robots/noindex_follow');
+            }
+        }
+
         Mage::app()->getResponse()->setHeader('X-Robots-Tag', $value);
-        if ($addToHtmlHead)
-        {
+        if ($addToHtmlHead) {
             $this->_getLayout()->getBlock('head')
                 ->setData('robots', $value);
         }
