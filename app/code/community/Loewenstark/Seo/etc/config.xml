@@ -13,7 +13,7 @@
 <config>
     <modules>
         <Loewenstark_Seo>
-            <version>1.0.2.3</version>
+            <version>1.0.4.0</version>
         </Loewenstark_Seo>
     </modules>
     <frontend>
