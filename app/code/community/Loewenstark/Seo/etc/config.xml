@@ -109,6 +109,14 @@
                     </loewenstark_seo_contacts_index_index>
                 </observers>
             </controller_action_layout_render_before_catalog_seo_sitemap_category>
+            <controller_action_layout_render_before_catalogsearch_result_index>
+                <observers>
+                    <loewenstark_seo_contacts_index_index>
+                        <class>loewenstark_seo/observer</class>
+                        <method>addRobotsTagToCatalogsearch</method>
+                    </loewenstark_seo_contacts_index_index>
+                </observers>
+            </controller_action_layout_render_before_catalogsearch_result_index>
             <controller_action_layout_render_before_catalog_product_view>
                 <observers>
                     <loewenstark_seo_contacts_index_index>
@@ -222,6 +230,9 @@
             <sitemap>
                 <robots>NOINDEX,FOLLOW</robots>
             </sitemap>
+            <search>
+                <robots>NOINDEX,FOLLOW</robots>
+            </search>
             <seo>
                 <category_canonical_tag>1</category_canonical_tag>
                 <meta_title_length>55</meta_title_length>
