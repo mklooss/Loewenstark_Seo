@@ -39,7 +39,7 @@ class Loewenstark_Seo_Model_Observer
             'disabled'  => $isElementDisabled,
         ));
     }
-    
+
     /**
      * event: admin_system_config_section_save_after
      * in: Mage_Adminhtml_System_ConfigController::saveAction()
@@ -52,18 +52,18 @@ class Loewenstark_Seo_Model_Observer
         $_helper = Mage::helper('loewenstark_seo/categoryAttributes');
         $setup = Mage::getModel('catalog/resource_setup', 'core/resource');
         $setup->startSetup();
-        
+
         //get attributes from config and validate
         $config = $_helper->getSeoTextAttributeCodes();
-        
+
         //delete old attributes
         $_helper->deleteAttributesFromCategory( $setup, $config );
-        
+
         //create not existing attributes
         $_helper->addAttributesToCategory( $setup, $config );
 
         $setup->endSetup();
-        
+
     }
 
     /**
@@ -219,6 +219,18 @@ class Loewenstark_Seo_Model_Observer
     public function addRobotsTagToCheckoutCart(Varien_Event_Observer $event)
     {
         $this->_setRobotsHeader($this->_helper()->getCheckoutRobots());
+    }
+
+    /**
+     * event: controller_action_layout_render_before_ . $this->getFullActionName();
+     * in: Mage_Core_Controller_Varien_Action::renderLayout()
+     *
+     * @param $event Varien_Event_Observer
+     * @return void
+     */
+    public function addRobotsTagToCatalogsearch(Varien_Event_Observer $event)
+    {
+        $this->_setRobotsHeader($this->_helper()->getSearchRobots());
     }
 
     /**
