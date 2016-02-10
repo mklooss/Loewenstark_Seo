@@ -337,6 +337,23 @@ class Loewenstark_Seo_Model_Observer
             Mage::app()->getResponse()->setHeader('Link', $link);
             if ($addToHtmlHead)
             {
+                /*
+                 * Remove other canonical tags first, since:
+                 *
+                 * "THERE CAN BE ONLY ONE!!"
+                 *
+                 *      /| ________________
+                 *  O|===|>________________>
+                 *      \|
+                 *
+                 */
+                foreach ($head->getData('items') as $item) {
+                    if ($item['type'] == 'link_rel' && strstr($item['params'], 'rel="canonical"')) {
+                        $head->removeItem('link_rel', $item['name']);
+                        break;
+                    }
+                }
+
                 $this->_getLayout()->getBlock('head')
                         ->addLinkRel('canonical', $value);
             }
