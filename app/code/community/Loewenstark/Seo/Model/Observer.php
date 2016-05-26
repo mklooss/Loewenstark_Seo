@@ -337,8 +337,28 @@ class Loewenstark_Seo_Model_Observer
             Mage::app()->getResponse()->setHeader('Link', $link);
             if ($addToHtmlHead)
             {
-                $this->_getLayout()->getBlock('head')
-                        ->addLinkRel('canonical', $value);
+                /*
+                 * Remove other canonical tags first, since:
+                 *
+                 * "THERE CAN BE ONLY ONE!!"
+                 *
+                 *      /| ________________
+                 *  O|===|>________________>
+                 *      \|
+                 *
+                 */
+                $head = Mage::app()->getLayout()->getBlock('head');
+                /* @var $head Mage_Page_Block_Html_Head */
+
+                foreach ($head->getData('items') as $item) {
+                    if ($item['type'] == 'link_rel' && strstr($item['params'], 'rel="canonical"')) {
+                        $head->removeItem('link_rel', $item['name']);
+                        break;
+                    }
+                }
+
+                // Add new canonical link with trailing slash
+                $head->addLinkRel('canonical', rtrim($value, '/') . '/');
             }
         }
         return $this;
