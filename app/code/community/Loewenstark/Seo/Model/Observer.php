@@ -201,11 +201,12 @@ class Loewenstark_Seo_Model_Observer
         {
             $this->setPageType('catalog_category');
             $url = $this->cleanUrl($category->getUrl());
+
             if ($url != Mage::helper('core/url')->getCurrentUrl())
             {
                 $this->_setRobotsHeader('NOINDEX, FOLLOW');
             }
-            $this->_setCanonicalHeader($url);
+            $this->_setCanonicalHeader($url, true, false);
         }
     }
 
@@ -328,7 +329,7 @@ class Loewenstark_Seo_Model_Observer
      * @param string $value url
      * @return Loewenstark_Seo_Model_Observer
      */
-    public function _setCanonicalHeader($value, $addToHtmlHead = true)
+    public function _setCanonicalHeader($value, $addToHtmlHead = true, $addTrailingSlash = true)
     {
         if (!empty($value))
         {
@@ -357,8 +358,13 @@ class Loewenstark_Seo_Model_Observer
                     }
                 }
 
-                // Add new canonical link with trailing slash
-                $head->addLinkRel('canonical', rtrim($value, '/') . '/');
+                //add trailing slash
+                if ($addTrailingSlash) {
+                    $value = rtrim($value, '/') . '/';
+                }
+
+                // Add new canonical link
+                $head->addLinkRel('canonical', $value);
             }
         }
         return $this;
